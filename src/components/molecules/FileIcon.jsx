@@ -12,10 +12,10 @@ const FileIcon = ({ type, isFolder, className, folderColor }) => {
         purple: "text-purple-600",
         pink: "text-pink-600",
         orange: "text-orange-600",
-        red: "text-red-600"
+red: "text-red-600"
       };
       const colorClass = folderColor && colorMap[folderColor] ? colorMap[folderColor] : "text-primary-600";
-      return { icon: "Folder", color: colorClass };
+      return { icon: "FolderOpen", color: colorClass };
     }
 
     switch (type) {

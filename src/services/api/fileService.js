@@ -1,4 +1,4 @@
-import mockFiles from "@/mockData/files.json";
+import mockFiles from "@/services/mockData/files.json";
 
 let files = [...mockFiles];
 

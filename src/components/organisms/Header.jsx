@@ -80,7 +80,7 @@ const [searchExpanded, setSearchExpanded] = useState(false);
                         <ApperIcon name="FolderPlus" className="w-4 h-4 sm:mr-2" />
                         <span className="hidden sm:inline">New Folder</span>
                     </Button>
-                    <Button 
+<Button 
                         variant="primary" 
                         size="sm" 
                         onClick={onUpload}
@@ -89,6 +89,14 @@ const [searchExpanded, setSearchExpanded] = useState(false);
                         <ApperIcon name="Upload" className="w-4 h-4 sm:mr-2" />
                         <span className="hidden sm:inline">Upload</span>
                     </Button>
+                    <input
+                        type="file"
+                        ref={onUpload.fileInputRef}
+                        onChange={onUpload.handleFileSelect}
+                        multiple
+                        className="hidden"
+                        accept="*/*"
+                    />
                 </div>
                 
 {/* User Profile Dropdown */}

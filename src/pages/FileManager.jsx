@@ -1,15 +1,16 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { useFileSystem } from "@/hooks/useFileSystem";
-import TeamManagementModal from "@/components/organisms/TeamManagementModal";
-import TeamSwitchModal from "@/components/organisms/TeamSwitchModal";
-import CreateTeamModal from "@/components/organisms/CreateTeamModal";
+import ApperIcon from "@/components/ApperIcon";
 import Empty from "@/components/ui/Empty";
 import Error from "@/components/ui/Error";
 import Loading from "@/components/ui/Loading";
 import FileList from "@/components/organisms/FileList";
+import TeamSwitchModal from "@/components/organisms/TeamSwitchModal";
 import FilePreview from "@/components/organisms/FilePreview";
+import CreateTeamModal from "@/components/organisms/CreateTeamModal";
 import Header from "@/components/organisms/Header";
+import TeamManagementModal from "@/components/organisms/TeamManagementModal";
 import FileGrid from "@/components/organisms/FileGrid";
 import Sidebar from "@/components/organisms/Sidebar";
 
@@ -68,9 +69,10 @@ userTeams,
     createTeam,
     joinTeam,
     leaveTeam,
-    updateMemberRole,
+updateMemberRole,
     removeMember,
-    hasPermission
+    hasPermission,
+    uploadFiles
   } = useFileSystem();
 
   const handleFileClick = (file) => {
@@ -102,10 +104,55 @@ const handleNewFolder = () => {
       createFolder(name.trim());
     }
   };
+};
+
+  const fileInputRef = React.useRef(null);
+  const [dragOver, setDragOver] = useState(false);
 
   const handleUpload = () => {
-    toast.info("Upload functionality would be implemented here");
+    fileInputRef.current?.click();
   };
+
+  const handleFileSelect = (event) => {
+    const files = event.target.files;
+    if (files && files.length > 0) {
+      uploadFiles(files);
+    }
+    // Reset the input so the same file can be selected again
+    event.target.value = '';
+  };
+
+  const handleDragOver = (event) => {
+    event.preventDefault();
+    setDragOver(true);
+  };
+
+  const handleDragLeave = (event) => {
+    event.preventDefault();
+    setDragOver(false);
+  };
+
+  const handleDrop = (event) => {
+    event.preventDefault();
+    setDragOver(false);
+    
+    const files = event.dataTransfer.files;
+    if (files && files.length > 0) {
+      uploadFiles(files);
+    }
+  };
+
+  // Create upload handler object for Header
+  const uploadHandler = {
+    fileInputRef,
+    handleFileSelect
+  };
+
+  // Assign the click handler to the upload function
+  handleUpload.fileInputRef = fileInputRef;
+  handleUpload.handleFileSelect = handleFileSelect;
+
+  const handleUploadClick = () => {
 
   const handleRename = (file) => {
     const newName = prompt("Enter new name:", file.name);
@@ -241,8 +288,8 @@ if (error) {
             onSortChange={handleSort}
             fileTypeFilter={fileTypeFilter}
             onFileTypeFilterChange={setFileTypeFilter}
-            onNewFolder={handleNewFolder}
-            onUpload={handleUpload}
+onNewFolder={handleNewFolder}
+            onUpload={handleUploadClick}
             selectedFiles={selectedFiles}
             onDeleteSelected={handleDeleteSelected}
             onSidebarToggle={toggleSidebar}
@@ -256,8 +303,38 @@ sizeRange={sizeRange}
             onTeamManagementOpen={() => setTeamManagementOpen(true)}
             onTeamSwitchOpen={() => setTeamSwitchOpen(true)}
           />
-          {/* File content */}
-          <main className="flex-1 p-4 sm:p-6 lg:p-8">
+{/* File content */}
+          <main 
+            className={`flex-1 p-4 sm:p-6 lg:p-8 transition-all duration-200 ${
+              dragOver ? 'bg-primary-50 border-2 border-dashed border-primary-300' : ''
+            }`}
+            onDragOver={handleDragOver}
+            onDragLeave={handleDragLeave}
+            onDrop={handleDrop}
+          >
+            {/* Hidden file input */}
+            <input
+              type="file"
+              ref={fileInputRef}
+              onChange={handleFileSelect}
+              multiple
+              className="hidden"
+              accept="*/*"
+            />
+            
+            {/* Drag overlay */}
+            {dragOver && (
+              <div className="fixed inset-0 bg-primary-500 bg-opacity-10 flex items-center justify-center z-50 pointer-events-none">
+                <div className="bg-white rounded-lg p-8 shadow-lg border-2 border-dashed border-primary-300">
+                  <div className="text-center">
+                    <ApperIcon name="Upload" className="w-16 h-16 mx-auto text-primary-500 mb-4" />
+                    <p className="text-lg font-medium text-primary-700 mb-2">Drop files here to upload</p>
+                    <p className="text-sm text-primary-600">Maximum 10 files, 100MB each</p>
+                  </div>
+                </div>
+              </div>
+            )}
+            
             {loading ? (
               <Loading type={view} />
             ) : files.length === 0 ? (

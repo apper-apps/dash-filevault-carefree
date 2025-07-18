@@ -1,5 +1,4 @@
 import mockFiles from "@/services/mockData/files.json";
-
 let files = [...mockFiles];
 
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
@@ -189,10 +188,56 @@ async search(query, filters = {}) {
           if (sizeRange.max !== undefined && sizeRange.max !== null) {
             matchesSize = matchesSize && fileSize <= sizeRange.max;
           }
-        }
+}
         
         return matchesSearch && matchesDate && matchesSize;
       })
       .map(f => ({ ...f }));
+  },
+
+  async upload(fileData) {
+    await delay(500); // Simulate upload time
+    
+    // Validate file data
+    if (!fileData.name || !fileData.size) {
+      throw new Error("Invalid file data");
+    }
+    
+    // Check if file already exists in the same directory
+    const existingFile = files.find(f => 
+      f.name === fileData.name && f.parentId === fileData.parentId
+    );
+    
+    if (existingFile) {
+      // Generate unique name
+      const nameParts = fileData.name.split('.');
+      const extension = nameParts.length > 1 ? nameParts.pop() : '';
+      const baseName = nameParts.join('.');
+      let counter = 1;
+      let newName;
+      
+      do {
+        newName = extension 
+          ? `${baseName} (${counter}).${extension}`
+          : `${baseName} (${counter})`;
+        counter++;
+      } while (files.find(f => f.name === newName && f.parentId === fileData.parentId));
+      
+      fileData.name = newName;
+      fileData.path = fileData.path.replace(/\/[^\/]+$/, `/${newName}`);
+    }
+    
+    const newFile = {
+      ...fileData,
+      Id: Math.max(...files.map(f => f.Id)) + 1,
+      created: new Date().toISOString(),
+      modified: new Date().toISOString(),
+      isFolder: false,
+      isFavorite: false,
+      // Remove the actual file content in mock implementation
+      content: undefined
+    };
+files.push(newFile);
+    return { ...newFile };
   }
 };

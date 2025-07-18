@@ -272,6 +272,58 @@ setFiles(filteredFiles);
       buildFolderTree();
     } catch (err) {
       toast.error("Failed to update favorite");
+}
+  };
+
+  const uploadFiles = async (fileList) => {
+    if (!hasPermission('create')) {
+      toast.error("You don't have permission to upload files");
+      return;
+    }
+
+    const files = Array.from(fileList);
+    const maxFileSize = 100 * 1024 * 1024; // 100MB limit
+    const maxFiles = 10;
+
+    // Validate file count
+    if (files.length > maxFiles) {
+      toast.error(`Maximum ${maxFiles} files allowed at once`);
+      return;
+    }
+
+    // Validate file sizes
+    const oversizedFiles = files.filter(file => file.size > maxFileSize);
+    if (oversizedFiles.length > 0) {
+      toast.error(`Some files exceed the 100MB limit: ${oversizedFiles.map(f => f.name).join(', ')}`);
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const uploadPromises = files.map(async (file) => {
+        const fileData = {
+          name: file.name,
+          size: file.size,
+          type: file.type || 'application/octet-stream',
+          isFolder: false,
+          parentId: currentPath === "/" ? null : files.find(f => f.path === currentPath)?.Id,
+          path: currentPath === "/" ? `/${file.name}` : `${currentPath}/${file.name}`,
+          content: file // In real implementation, this would be uploaded to server
+        };
+
+        return await fileService.upload(fileData);
+      });
+
+      const uploadedFiles = await Promise.all(uploadPromises);
+      
+      toast.success(`Successfully uploaded ${uploadedFiles.length} file${uploadedFiles.length > 1 ? 's' : ''}`);
+      loadFiles();
+      buildFolderTree();
+    } catch (err) {
+      console.error("Upload failed:", err);
+      toast.error("Failed to upload files. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -506,8 +558,9 @@ setFiles(filteredFiles);
     createTeam,
     joinTeam,
     leaveTeam,
-    updateMemberRole,
+updateMemberRole,
     removeMember,
-    hasPermission
+    hasPermission,
+    uploadFiles
   };
 };

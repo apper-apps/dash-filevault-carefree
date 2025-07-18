@@ -43,15 +43,15 @@ return (
         {/* Mobile: Single compact row with all controls */}
         <div className="lg:hidden">
             <div className="flex items-center justify-between h-12 py-2">
-                {/* Left side - Mobile menu + Search */}
+{/* Left side - Mobile menu + Search */}
                 <div className="flex items-center space-x-2 flex-1">
                     <button
                         onClick={onSidebarToggle}
-                        className="p-2 rounded-lg hover:bg-neutral-100 transition-colors">
-                        <ApperIcon name="Menu" className="w-5 h-5" />
+                        className="mobile-button mobile-hamburger-menu p-2 rounded-lg hover:bg-primary-50 active:bg-primary-100 transition-all duration-200 flex items-center justify-center">
+                        <ApperIcon name="Menu" className="w-5 h-5 text-neutral-700 hover:text-primary-600" />
                     </button>
                     <div className={`flex-1 mr-2 transition-all duration-300 ease-out ${
-                      searchExpanded 
+                      searchExpanded
                         ? 'max-w-lg' 
                         : 'max-w-xs'
                     }`}>

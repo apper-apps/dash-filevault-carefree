@@ -19,3 +19,22 @@ export const formatDateTime = (dateString) => {
   const date = new Date(dateString);
   return format(date, "MMM d, yyyy 'at' h:mm a");
 };
+
+export const calculateStorage = (files) => {
+  // Calculate total used storage from files
+  const usedStorage = files.reduce((total, file) => {
+    return total + (file.size || 0);
+  }, 0);
+  
+  // For demo purposes, set total storage to 5GB
+  const totalStorage = 5 * 1024 * 1024 * 1024; // 5GB in bytes
+  const availableStorage = totalStorage - usedStorage;
+  const usagePercentage = totalStorage > 0 ? (usedStorage / totalStorage) * 100 : 0;
+  
+  return {
+    totalStorage,
+    usedStorage,
+    availableStorage,
+    usagePercentage
+  };
+};

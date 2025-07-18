@@ -129,9 +129,8 @@ return (
               </span>
 </div>
 
-{/* Actions */}
-            <div className="col-span-1 flex items-center justify-end lg:opacity-0 lg:group-hover:opacity-100 transition-all duration-200">
-              <div className="flex items-center space-x-1">
+<div className="col-span-1 flex items-center justify-end lg:opacity-0 lg:group-hover:opacity-100 transition-all duration-200">
+              <div className="flex items-center space-x-1 lg:space-x-1 lg:flex-row flex-col space-y-1 lg:space-y-0">
                 {file.isFolder && (
                   <ColorPicker
                     onColorSelect={(color) => onColorChange(file.Id, color)}
@@ -143,7 +142,7 @@ return (
                     e.stopPropagation();
                     onRename(file);
                   }}
-                  className="p-1.5 rounded-md hover:bg-neutral-200 transition-all duration-200 hover:scale-110"
+                  className="p-1.5 rounded-md hover:bg-neutral-200 transition-all duration-200 hover:scale-110 mobile-button"
                   title="Rename"
                 >
                   <ApperIcon name="Edit2" className="w-4 h-4 text-neutral-600" />
@@ -153,7 +152,7 @@ return (
                     e.stopPropagation();
                     onDelete(file.Id);
                   }}
-                  className="p-1.5 rounded-md hover:bg-red-50 transition-all duration-200 hover:scale-110"
+                  className="p-1.5 rounded-md hover:bg-red-50 transition-all duration-200 hover:scale-110 mobile-button"
                   title="Delete"
                 >
                   <ApperIcon name="Trash2" className="w-4 h-4 text-red-600" />

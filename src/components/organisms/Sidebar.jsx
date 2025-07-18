@@ -273,13 +273,16 @@ currentPath === "/"
               <div className="px-3 py-1 text-xs font-medium text-neutral-500 uppercase tracking-wide">
                 Folders
               </div>
-              {folderTree.map(folder => (
-                <FolderTreeItem 
-                  key={folder.Id} 
-                  folder={folder} 
-                  onToggleFavorite={onToggleFavorite}
-                />
-              ))}
+              <div className="grid grid-cols-2 gap-1">
+                {folderTree.map(folder => (
+                  <div key={folder.Id} className="col-span-1">
+                    <FolderTreeItem 
+                      folder={folder} 
+                      onToggleFavorite={onToggleFavorite}
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
           </nav>
         </div>

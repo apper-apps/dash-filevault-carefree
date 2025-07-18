@@ -10,9 +10,10 @@
     "isFolder": true,
     "parentId": null,
     "icon": "Folder",
-    "color": "blue"
+    "color": "blue",
+    "isFavorite": true
   },
-{
+  {
     "Id": 2,
     "name": "Images",
     "type": "folder",
@@ -23,7 +24,8 @@
     "isFolder": true,
     "parentId": null,
     "icon": "Folder",
-    "color": "green"
+    "color": "green",
+    "isFavorite": false
   },
 {
     "Id": 3,
@@ -36,9 +38,10 @@
     "isFolder": true,
     "parentId": null,
     "icon": "Folder",
-    "color": "purple"
+    "color": "purple",
+    "isFavorite": false
   },
-{
+  {
     "Id": 4,
     "name": "Downloads",
     "type": "folder",
@@ -49,7 +52,8 @@
     "isFolder": true,
     "parentId": null,
     "icon": "Folder",
-    "color": "orange"
+    "color": "orange",
+    "isFavorite": false
   },
   {
     "Id": 5,
@@ -206,9 +210,10 @@
     "isFolder": true,
     "parentId": 1,
     "icon": "Folder",
-    "color": "red"
+    "color": "red",
+    "isFavorite": true
   },
-{
+  {
     "Id": 18,
     "name": "Personal",
     "type": "folder",
@@ -219,9 +224,10 @@
     "isFolder": true,
     "parentId": 1,
     "icon": "Folder",
-    "color": "pink"
+    "color": "pink",
+    "isFavorite": false
   },
-{
+  {
     "Id": 19,
     "name": "Vacation",
     "type": "folder",
@@ -232,7 +238,8 @@
     "isFolder": true,
     "parentId": 2,
     "icon": "Folder",
-    "color": "yellow"
+    "color": "yellow",
+    "isFavorite": false
   },
   {
     "Id": 20,

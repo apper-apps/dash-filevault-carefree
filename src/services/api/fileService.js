@@ -136,6 +136,22 @@ return { ...files[fileIndex] };
       return { ...files[fileIndex] };
     }
     return null;
+},
+
+  async toggleFavorite(id) {
+    await delay(200);
+    const numericId = parseInt(id);
+    const fileIndex = files.findIndex(f => f.Id === numericId);
+    
+    if (fileIndex !== -1 && files[fileIndex].isFolder) {
+      files[fileIndex] = {
+        ...files[fileIndex],
+        isFavorite: !files[fileIndex].isFavorite,
+        modified: new Date().toISOString()
+      };
+      return { ...files[fileIndex] };
+    }
+    return null;
   },
 
   async search(query) {

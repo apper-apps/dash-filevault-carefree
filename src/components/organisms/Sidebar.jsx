@@ -6,42 +6,64 @@ import { cn } from "@/utils/cn";
 
 const Sidebar = ({ 
   folderTree, 
+  favoritefolders,
   currentPath, 
   onNavigate, 
   isOpen, 
-  onToggle 
+  onToggle,
+  onToggleFavorite
 }) => {
-  const FolderTreeItem = ({ folder, level = 0 }) => {
+const FolderTreeItem = ({ folder, level = 0, onToggleFavorite }) => {
     const hasChildren = folder.children && folder.children.length > 0;
     const isActive = currentPath === folder.path;
     const isExpanded = folder.expanded;
 
     return (
       <div>
-        <button
-          onClick={() => onNavigate(folder.path)}
-          className={cn(
-            "w-full flex items-center space-x-2 px-3 py-2 text-sm rounded-lg transition-colors",
-            isActive 
-              ? "bg-primary-100 text-primary-700" 
-              : "text-neutral-700 hover:bg-neutral-100",
-            level > 0 && "ml-4"
-          )}
-        >
-          {hasChildren && (
-            <ApperIcon 
-              name={isExpanded ? "ChevronDown" : "ChevronRight"} 
+        <div className="flex items-center group">
+          <button
+            onClick={() => onNavigate(folder.path)}
+            className={cn(
+              "flex-1 flex items-center space-x-2 px-3 py-2 text-sm rounded-lg transition-colors",
+              isActive 
+                ? "bg-primary-100 text-primary-700" 
+                : "text-neutral-700 hover:bg-neutral-100",
+              level > 0 && "ml-4"
+            )}
+          >
+            {hasChildren && (
+              <ApperIcon 
+                name={isExpanded ? "ChevronDown" : "ChevronRight"} 
+                className="w-4 h-4 flex-shrink-0" 
+              />
+            )}
+            <FileIcon 
+              type="folder" 
+              isFolder={true} 
+              folderColor={folder.color}
               className="w-4 h-4 flex-shrink-0" 
             />
-)}
-          <FileIcon 
-            type="folder" 
-            isFolder={true} 
-            folderColor={folder.color}
-            className="w-4 h-4 flex-shrink-0" 
-          />
-          <span className="truncate">{folder.name}</span>
-        </button>
+            <span className="truncate">{folder.name}</span>
+          </button>
+          
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              onToggleFavorite(folder.Id);
+            }}
+            className="p-1 rounded hover:bg-neutral-100 transition-colors opacity-0 group-hover:opacity-100"
+          >
+            <ApperIcon 
+              name={folder.isFavorite ? "Star" : "Star"} 
+              className={cn(
+                "w-4 h-4 transition-colors",
+                folder.isFavorite 
+                  ? "text-yellow-500 fill-current" 
+                  : "text-neutral-400 hover:text-yellow-500"
+              )}
+            />
+          </button>
+        </div>
         
         {hasChildren && isExpanded && (
           <motion.div
@@ -54,7 +76,8 @@ const Sidebar = ({
               <FolderTreeItem 
                 key={child.Id} 
                 folder={child} 
-                level={level + 1} 
+                level={level + 1}
+                onToggleFavorite={onToggleFavorite}
               />
             ))}
           </motion.div>
@@ -90,12 +113,31 @@ const Sidebar = ({
             </button>
           </div>
 
+{favoritefolders.length > 0 && (
+            <div className="space-y-1 mb-4">
+              <div className="px-3 py-2 text-xs font-medium text-neutral-500 uppercase tracking-wide">
+                Favorites
+              </div>
+              {favoritefolders.map(folder => (
+                <FolderTreeItem 
+                  key={folder.Id} 
+                  folder={folder} 
+                  onToggleFavorite={onToggleFavorite}
+                />
+              ))}
+            </div>
+          )}
+
           <div className="space-y-1">
             <div className="px-3 py-2 text-xs font-medium text-neutral-500 uppercase tracking-wide">
               Folders
             </div>
             {folderTree.map(folder => (
-              <FolderTreeItem key={folder.Id} folder={folder} />
+              <FolderTreeItem 
+                key={folder.Id} 
+                folder={folder} 
+                onToggleFavorite={onToggleFavorite}
+              />
             ))}
           </div>
         </nav>
@@ -156,12 +198,31 @@ const Sidebar = ({
               </button>
             </div>
 
+{favoritefolders.length > 0 && (
+              <div className="space-y-1 mb-4">
+                <div className="px-3 py-2 text-xs font-medium text-neutral-500 uppercase tracking-wide">
+                  Favorites
+                </div>
+                {favoritefolders.map(folder => (
+                  <FolderTreeItem 
+                    key={folder.Id} 
+                    folder={folder} 
+                    onToggleFavorite={onToggleFavorite}
+                  />
+                ))}
+              </div>
+            )}
+
             <div className="space-y-1">
               <div className="px-3 py-2 text-xs font-medium text-neutral-500 uppercase tracking-wide">
                 Folders
               </div>
               {folderTree.map(folder => (
-                <FolderTreeItem key={folder.Id} folder={folder} />
+                <FolderTreeItem 
+                  key={folder.Id} 
+                  folder={folder} 
+                  onToggleFavorite={onToggleFavorite}
+                />
               ))}
             </div>
           </nav>

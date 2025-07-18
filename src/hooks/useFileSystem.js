@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 export const useFileSystem = () => {
   const [files, setFiles] = useState([]);
   const [folderTree, setFolderTree] = useState([]);
+  const [favoritefolders, setFavoritefolders] = useState([]);
   const [currentPath, setCurrentPath] = useState("/");
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -14,7 +15,6 @@ export const useFileSystem = () => {
   const [sortOrder, setSortOrder] = useState("asc");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-
   // Load files for current path
   const loadFiles = async (path = currentPath) => {
     setLoading(true);
@@ -79,7 +79,7 @@ export const useFileSystem = () => {
     }
   };
 
-  // Build folder tree
+// Build folder tree
   const buildFolderTree = async () => {
     try {
       const allFiles = await fileService.getAll();
@@ -96,10 +96,14 @@ export const useFileSystem = () => {
       };
       
       setFolderTree(buildTree());
+      
+      // Update favorites
+      const favorites = folders.filter(f => f.isFavorite);
+      setFavoritefolders(favorites);
     } catch (err) {
       console.error("Failed to build folder tree:", err);
     }
-};
+  };
 
   // Helper function to categorize file types
   const getFileTypeCategory = (fileName) => {
@@ -192,6 +196,17 @@ export const useFileSystem = () => {
     } catch (err) {
       toast.error("Failed to delete selected files");
     }
+};
+
+  const toggleFavorite = async (folderId) => {
+    try {
+      await fileService.toggleFavorite(folderId);
+      toast.success("Favorite updated successfully");
+      loadFiles();
+      buildFolderTree();
+    } catch (err) {
+      toast.error("Failed to update favorite");
+    }
   };
 
   const toggleFileSelection = (fileId) => {
@@ -221,6 +236,7 @@ return {
     // State
     files,
     folderTree,
+    favoritefolders,
     currentPath,
     selectedFiles,
     searchQuery,
@@ -236,13 +252,14 @@ return {
     setSearchQuery,
     setFileTypeFilter,
     setView,
-handleSort,
+    handleSort,
     createFolder,
     renameFile,
     deleteFile,
     deleteSelected,
     changeFolderColor,
     toggleFileSelection,
+    toggleFavorite,
     loadFiles
   };
 };

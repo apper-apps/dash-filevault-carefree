@@ -20,6 +20,7 @@ const FileManager = () => {
 const {
     files,
     folderTree,
+    favoritefolders,
     currentPath,
     selectedFiles,
     searchQuery,
@@ -40,6 +41,7 @@ const {
     deleteSelected,
     changeFolderColor,
     toggleFileSelection,
+    toggleFavorite,
     loadFiles
   } = useFileSystem();
 
@@ -106,13 +108,15 @@ const {
   return (
     <div className="min-h-screen bg-neutral-50">
       <div className="flex">
-        {/* Sidebar */}
+{/* Sidebar */}
         <Sidebar
           folderTree={folderTree}
+          favoritefolders={favoritefolders}
           currentPath={currentPath}
           onNavigate={navigateToPath}
           isOpen={sidebarOpen}
           onToggle={toggleSidebar}
+          onToggleFavorite={toggleFavorite}
         />
 
         {/* Main content */}

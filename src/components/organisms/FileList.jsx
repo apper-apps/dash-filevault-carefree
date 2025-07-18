@@ -2,6 +2,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import ApperIcon from "@/components/ApperIcon";
 import FileIcon from "@/components/molecules/FileIcon";
+import ColorPicker from "@/components/molecules/ColorPicker";
 import { formatDate, formatFileSize } from "@/utils/formatters";
 import { cn } from "@/utils/cn";
 
@@ -13,6 +14,7 @@ const FileList = ({
   onFileSelect,
   onRename,
   onDelete,
+  onColorChange,
   sortBy,
   sortOrder,
   onSortChange
@@ -101,10 +103,11 @@ const FileList = ({
             </div>
 
             {/* Name */}
-            <div className="col-span-6 flex items-center space-x-3">
+<div className="col-span-6 flex items-center space-x-3">
               <FileIcon
                 type={file.type}
                 isFolder={file.isFolder}
+                folderColor={file.color}
                 className="w-5 h-5 flex-shrink-0"
               />
               <span className="text-sm font-medium text-neutral-900 truncate">
@@ -129,19 +132,11 @@ const FileList = ({
             {/* Actions */}
 <div className="col-span-1 flex items-center justify-end opacity-0 group-hover:opacity-100 transition-opacity">
               <div className="flex items-center space-x-1">
-{file.isFolder && (
-                  <div className="relative group/color">
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        // Color change functionality would be implemented here
-                      }}
-                      className="p-1 rounded hover:bg-neutral-200 transition-colors"
-                      title="Change folder color"
-                    >
-                      <ApperIcon name="Palette" className="w-4 h-4 text-neutral-600" />
-                    </button>
-                  </div>
+                {file.isFolder && (
+                  <ColorPicker
+                    onColorSelect={(color) => onColorChange(file.Id, color)}
+                    currentColor={file.color}
+                  />
                 )}
                 <button
                   onClick={(e) => {

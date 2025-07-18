@@ -1,4 +1,4 @@
-import mockFiles from "../mockData/files.json";
+import mockFiles from "@/mockData/files.json";
 
 let files = [...mockFiles];
 
@@ -117,6 +117,22 @@ export const fileService = {
         updateChildrenPaths(numericId, newPath);
       }
       
+return { ...files[fileIndex] };
+    }
+    return null;
+  },
+
+  async updateColor(id, color) {
+    await delay(200);
+    const numericId = parseInt(id);
+    const fileIndex = files.findIndex(f => f.Id === numericId);
+    
+    if (fileIndex !== -1 && files[fileIndex].isFolder) {
+      files[fileIndex] = {
+        ...files[fileIndex],
+        color: color,
+        modified: new Date().toISOString()
+      };
       return { ...files[fileIndex] };
     }
     return null;

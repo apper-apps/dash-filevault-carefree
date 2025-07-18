@@ -1,6 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import ApperIcon from "@/components/ApperIcon";
+import FileIcon from "@/components/molecules/FileIcon";
 import { cn } from "@/utils/cn";
 
 const Sidebar = ({ 
@@ -32,8 +33,13 @@ const Sidebar = ({
               name={isExpanded ? "ChevronDown" : "ChevronRight"} 
               className="w-4 h-4 flex-shrink-0" 
             />
-          )}
-          <ApperIcon name="Folder" className="w-4 h-4 flex-shrink-0 text-primary-600" />
+)}
+          <FileIcon 
+            type="folder" 
+            isFolder={true} 
+            folderColor={folder.color}
+            className="w-4 h-4 flex-shrink-0" 
+          />
           <span className="truncate">{folder.name}</span>
         </button>
         

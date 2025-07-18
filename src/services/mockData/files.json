@@ -9,9 +9,10 @@
     "path": "/Documents",
     "isFolder": true,
     "parentId": null,
-    "icon": "Folder"
+    "icon": "Folder",
+    "color": "blue"
   },
-  {
+{
     "Id": 2,
     "name": "Images",
     "type": "folder",
@@ -21,9 +22,10 @@
     "path": "/Images",
     "isFolder": true,
     "parentId": null,
-    "icon": "Folder"
+    "icon": "Folder",
+    "color": "green"
   },
-  {
+{
     "Id": 3,
     "name": "Videos",
     "type": "folder",
@@ -33,9 +35,10 @@
     "path": "/Videos",
     "isFolder": true,
     "parentId": null,
-    "icon": "Folder"
+    "icon": "Folder",
+    "color": "purple"
   },
-  {
+{
     "Id": 4,
     "name": "Downloads",
     "type": "folder",
@@ -45,7 +48,8 @@
     "path": "/Downloads",
     "isFolder": true,
     "parentId": null,
-    "icon": "Folder"
+    "icon": "Folder",
+    "color": "orange"
   },
   {
     "Id": 5,
@@ -191,7 +195,7 @@
     "parentId": 4,
     "icon": "FileText"
   },
-  {
+{
     "Id": 17,
     "name": "Work",
     "type": "folder",
@@ -201,9 +205,10 @@
     "path": "/Documents/Work",
     "isFolder": true,
     "parentId": 1,
-    "icon": "Folder"
+    "icon": "Folder",
+    "color": "red"
   },
-  {
+{
     "Id": 18,
     "name": "Personal",
     "type": "folder",
@@ -213,9 +218,10 @@
     "path": "/Documents/Personal",
     "isFolder": true,
     "parentId": 1,
-    "icon": "Folder"
+    "icon": "Folder",
+    "color": "pink"
   },
-  {
+{
     "Id": 19,
     "name": "Vacation",
     "type": "folder",
@@ -225,7 +231,8 @@
     "path": "/Images/Vacation",
     "isFolder": true,
     "parentId": 2,
-    "icon": "Folder"
+    "icon": "Folder",
+    "color": "yellow"
   },
   {
     "Id": 20,

@@ -169,6 +169,17 @@ export const useFileSystem = () => {
     } catch (err) {
       toast.error("Failed to delete file");
     }
+};
+
+  const changeFolderColor = async (fileId, color) => {
+    try {
+      await fileService.updateColor(fileId, color);
+      toast.success("Folder color updated successfully");
+      loadFiles();
+      buildFolderTree();
+    } catch (err) {
+      toast.error("Failed to update folder color");
+    }
   };
 
   const deleteSelected = async () => {
@@ -225,11 +236,12 @@ return {
     setSearchQuery,
     setFileTypeFilter,
     setView,
-    handleSort,
+handleSort,
     createFolder,
     renameFile,
     deleteFile,
     deleteSelected,
+    changeFolderColor,
     toggleFileSelection,
     loadFiles
   };

@@ -5,7 +5,16 @@ import { cn } from "@/utils/cn";
 const FileIcon = ({ type, isFolder, className, folderColor }) => {
   const getIconAndColor = () => {
     if (isFolder) {
-      const colorClass = folderColor ? `text-${folderColor}` : "text-primary-600";
+      const colorMap = {
+        blue: "text-blue-600",
+        green: "text-green-600", 
+        yellow: "text-yellow-600",
+        purple: "text-purple-600",
+        pink: "text-pink-600",
+        orange: "text-orange-600",
+        red: "text-red-600"
+      };
+      const colorClass = folderColor && colorMap[folderColor] ? colorMap[folderColor] : "text-primary-600";
       return { icon: "Folder", color: colorClass };
     }
 

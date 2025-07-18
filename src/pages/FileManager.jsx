@@ -38,6 +38,7 @@ const {
     renameFile: renameFileAction,
     deleteFile,
     deleteSelected,
+    changeFolderColor,
     toggleFileSelection,
     loadFiles
   } = useFileSystem();
@@ -151,7 +152,7 @@ const {
                 icon={searchQuery ? "Search" : "FolderOpen"}
               />
             ) : view === "grid" ? (
-              <FileGrid
+<FileGrid
                 files={files}
                 selectedFiles={selectedFiles}
                 onFileClick={handleFileClick}
@@ -159,9 +160,10 @@ const {
                 onFileSelect={toggleFileSelection}
                 onRename={handleRename}
                 onDelete={handleDelete}
+                onColorChange={changeFolderColor}
               />
 ) : (
-              <FileList
+<FileList
                 files={files}
                 selectedFiles={selectedFiles}
                 onFileClick={handleFileClick}
@@ -169,6 +171,7 @@ const {
                 onFileSelect={toggleFileSelection}
                 onRename={handleRename}
                 onDelete={handleDelete}
+                onColorChange={changeFolderColor}
                 sortBy={sortBy}
                 sortOrder={sortOrder}
                 onSortChange={handleSort}

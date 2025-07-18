@@ -31,10 +31,13 @@ const Header = ({
   sizeRange,
   onSizeRangeChange,
   onClearFilters,
+  onTeamManagementOpen,
+  onTeamSwitchOpen,
 }) => {
-  const [searchExpanded, setSearchExpanded] = useState(false);
+const [searchExpanded, setSearchExpanded] = useState(false);
+  const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
 
-return (
+  return (
     <header className="bg-gradient-to-r from-white via-primary-50 to-accent-50 border-b border-primary-200 sticky top-0 z-30 shadow-smooth">
     <div className="px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
@@ -88,9 +91,12 @@ return (
                     </Button>
                 </div>
                 
-                {/* User Profile Dropdown */}
+{/* User Profile Dropdown */}
                 <div className="relative">
-                    <button className="flex items-center space-x-2 p-2 rounded-lg hover:bg-neutral-100 transition-colors">
+                    <button 
+                        onClick={() => setProfileDropdownOpen(!profileDropdownOpen)}
+                        className="flex items-center space-x-2 p-2 rounded-lg hover:bg-neutral-100 transition-colors"
+                    >
                         <div className="w-8 h-8 bg-gradient-to-br from-primary-500 to-accent-500 rounded-full flex items-center justify-center">
                             <span className="text-white text-sm font-medium">JD</span>
                         </div>
@@ -100,6 +106,52 @@ return (
                         </div>
                         <ApperIcon name="ChevronDown" className="w-4 h-4 text-neutral-500" />
                     </button>
+                    
+                    {/* Profile Dropdown Menu */}
+                    {profileDropdownOpen && (
+                        <div className="absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-lg border border-neutral-200 py-2 z-50">
+                            <div className="px-4 py-2 border-b border-neutral-100">
+                                <div className="text-sm font-medium text-neutral-900">John Doe</div>
+                                <div className="text-xs text-neutral-500">john.doe@company.com</div>
+                            </div>
+                            
+                            <div className="py-2">
+                                <button 
+                                    onClick={() => {
+                                        setProfileDropdownOpen(false);
+                                        onTeamManagementOpen();
+                                    }}
+                                    className="w-full flex items-center space-x-2 px-4 py-2 text-sm text-neutral-700 hover:bg-neutral-100 transition-colors"
+                                >
+                                    <ApperIcon name="Users" className="w-4 h-4" />
+                                    <span>Team Management</span>
+                                </button>
+                                
+                                <button 
+                                    onClick={() => {
+                                        setProfileDropdownOpen(false);
+                                        onTeamSwitchOpen();
+                                    }}
+                                    className="w-full flex items-center space-x-2 px-4 py-2 text-sm text-neutral-700 hover:bg-neutral-100 transition-colors"
+                                >
+                                    <ApperIcon name="ArrowLeftRight" className="w-4 h-4" />
+                                    <span>Switch Team</span>
+                                </button>
+                                
+                                <div className="border-t border-neutral-100 my-2"></div>
+                                
+                                <button className="w-full flex items-center space-x-2 px-4 py-2 text-sm text-neutral-700 hover:bg-neutral-100 transition-colors">
+                                    <ApperIcon name="Settings" className="w-4 h-4" />
+                                    <span>Settings</span>
+                                </button>
+                                
+                                <button className="w-full flex items-center space-x-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors">
+                                    <ApperIcon name="LogOut" className="w-4 h-4" />
+                                    <span>Sign Out</span>
+                                </button>
+                            </div>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

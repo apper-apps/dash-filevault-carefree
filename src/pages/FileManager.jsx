@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { useFileSystem } from "@/hooks/useFileSystem";
+import TeamManagementModal from "@/components/organisms/TeamManagementModal";
+import TeamSwitchModal from "@/components/organisms/TeamSwitchModal";
+import CreateTeamModal from "@/components/organisms/CreateTeamModal";
 import Empty from "@/components/ui/Empty";
 import Error from "@/components/ui/Error";
 import Loading from "@/components/ui/Loading";
@@ -19,6 +22,11 @@ const FileManager = () => {
   const [searchFiltersOpen, setSearchFiltersOpen] = useState(false);
   const [dateRange, setDateRange] = useState({ start: '', end: '' });
   const [sizeRange, setSizeRange] = useState(null);
+  
+  // Team management modals
+  const [teamManagementOpen, setTeamManagementOpen] = useState(false);
+  const [teamSwitchOpen, setTeamSwitchOpen] = useState(false);
+  const [createTeamOpen, setCreateTeamOpen] = useState(false);
 const {
     files,
     folderTree,
@@ -36,9 +44,9 @@ const {
     // Team state
     currentUser,
     currentTeam,
-    userTeams,
+userTeams,
     teamMembers,
-    
+    availableTeams,
     // Actions
     navigateToPath,
     setSearchQuery,
@@ -55,8 +63,13 @@ const {
     loadFiles,
     setAdvancedFilters,
     
-    // Team actions
+// Team actions
     switchTeam,
+    createTeam,
+    joinTeam,
+    leaveTeam,
+    updateMemberRole,
+    removeMember,
     hasPermission
   } = useFileSystem();
 
@@ -144,7 +157,50 @@ const handleDeleteSelected = () => {
   };
 
   const toggleSearchFilters = () => {
-    setSearchFiltersOpen(!searchFiltersOpen);
+setSearchFiltersOpen(!searchFiltersOpen);
+  };
+  
+  const handleCreateTeam = async (teamData) => {
+    try {
+      await createTeam(teamData);
+      setCreateTeamOpen(false);
+    } catch (err) {
+      // Error handled in createTeam function
+    }
+  };
+  
+  const handleJoinTeam = async (teamId) => {
+    try {
+      await joinTeam(teamId);
+      setTeamSwitchOpen(false);
+    } catch (err) {
+      // Error handled in joinTeam function
+    }
+  };
+  
+  const handleLeaveTeam = async (teamId) => {
+    if (window.confirm("Are you sure you want to leave this team?")) {
+      try {
+        await leaveTeam(teamId);
+        setTeamManagementOpen(false);
+      } catch (err) {
+        // Error handled in leaveTeam function
+      }
+    }
+  };
+  
+  const handleUpdateMemberRole = async (userId, newRole) => {
+    if (currentTeam) {
+      await updateMemberRole(currentTeam.Id, userId, newRole);
+    }
+  };
+  
+  const handleRemoveMember = async (userId) => {
+    if (window.confirm("Are you sure you want to remove this member?")) {
+      if (currentTeam) {
+        await removeMember(currentTeam.Id, userId);
+      }
+    }
   };
 if (error) {
     return (
@@ -168,11 +224,12 @@ if (error) {
           isOpen={sidebarOpen}
           onToggle={toggleSidebar}
           onToggleFavorite={toggleFavorite}
+          onTeamSwitchOpen={() => setTeamSwitchOpen(true)}
         />
 
         {/* Main content */}
         <div className="flex-1 flex flex-col min-w-0">
-<Header
+          <Header
             currentPath={currentPath}
             onNavigate={navigateToPath}
             searchQuery={searchQuery}
@@ -193,11 +250,12 @@ if (error) {
             onSearchFiltersToggle={toggleSearchFilters}
             dateRange={dateRange}
             onDateRangeChange={handleDateRangeChange}
-            sizeRange={sizeRange}
+sizeRange={sizeRange}
             onSizeRangeChange={handleSizeRangeChange}
             onClearFilters={handleClearFilters}
+            onTeamManagementOpen={() => setTeamManagementOpen(true)}
+            onTeamSwitchOpen={() => setTeamSwitchOpen(true)}
           />
-
           {/* File content */}
           <main className="flex-1 p-4 sm:p-6 lg:p-8">
             {loading ? (
@@ -246,9 +304,53 @@ if (error) {
       {/* File Preview Modal */}
       <FilePreview
         file={previewFile}
-        isOpen={isPreviewOpen}
+isOpen={isPreviewOpen}
         onClose={() => setIsPreviewOpen(false)}
       />
+      
+      {/* Team Management Modal */}
+      {teamManagementOpen && (
+        <TeamManagementModal
+          isOpen={teamManagementOpen}
+          onClose={() => setTeamManagementOpen(false)}
+          currentTeam={currentTeam}
+          currentUser={currentUser}
+          teamMembers={teamMembers}
+          onUpdateMemberRole={handleUpdateMemberRole}
+          onRemoveMember={handleRemoveMember}
+          onLeaveTeam={() => handleLeaveTeam(currentTeam?.Id)}
+          onCreateTeam={() => {
+            setTeamManagementOpen(false);
+            setCreateTeamOpen(true);
+          }}
+        />
+      )}
+      
+      {/* Team Switch Modal */}
+      {teamSwitchOpen && (
+        <TeamSwitchModal
+          isOpen={teamSwitchOpen}
+          onClose={() => setTeamSwitchOpen(false)}
+          currentTeam={currentTeam}
+          userTeams={userTeams}
+          availableTeams={availableTeams}
+          onSwitchTeam={switchTeam}
+          onJoinTeam={handleJoinTeam}
+          onCreateTeam={() => {
+            setTeamSwitchOpen(false);
+            setCreateTeamOpen(true);
+          }}
+        />
+      )}
+      
+      {/* Create Team Modal */}
+      {createTeamOpen && (
+        <CreateTeamModal
+          isOpen={createTeamOpen}
+          onClose={() => setCreateTeamOpen(false)}
+          onCreateTeam={handleCreateTeam}
+        />
+      )}
     </div>
   );
 };

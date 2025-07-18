@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { fileService } from "@/services/api/fileService";
-
+import { teamService } from "@/services/api/teamService";
+import { userService } from "@/services/api/userService";
 export const useFileSystem = () => {
   const [files, setFiles] = useState([]);
   const [folderTree, setFolderTree] = useState([]);
@@ -20,11 +21,49 @@ export const useFileSystem = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   
-  // Team-related state
+// Team-related state
   const [currentUser, setCurrentUser] = useState(null);
   const [currentTeam, setCurrentTeam] = useState(null);
   const [userTeams, setUserTeams] = useState([]);
   const [teamMembers, setTeamMembers] = useState([]);
+  const [availableTeams, setAvailableTeams] = useState([]);
+  
+  // Load team data
+  const loadTeamData = async () => {
+    try {
+      // Mock current user (in real app, this would come from authentication)
+      const mockCurrentUser = { Id: 1, name: "John Doe", email: "john.doe@company.com", role: "Admin" };
+      setCurrentUser(mockCurrentUser);
+      
+      // Load user's teams
+      const teams = await teamService.getUserTeams(mockCurrentUser.Id);
+      setUserTeams(teams);
+      
+      // Set current team (first team by default)
+      if (teams.length > 0) {
+        setCurrentTeam(teams[0]);
+        
+        // Load team members
+        const members = await Promise.all(
+          teams[0].members.map(async (member) => {
+            const user = await userService.getById(member.Id);
+            return {
+              ...user,
+              role: member.role,
+              joinedAt: member.joinedAt
+            };
+          })
+        );
+        setTeamMembers(members);
+      }
+      
+      // Load all available teams
+      const allTeams = await teamService.getAll();
+      setAvailableTeams(allTeams);
+    } catch (err) {
+      console.error("Failed to load team data:", err);
+    }
+  };
   // Load files function
   const loadFiles = async () => {
     await getFilesByPath(currentPath);
@@ -259,10 +298,11 @@ setFiles(filteredFiles);
     buildFolderTree();
   }, []);
 
-  // Effects
+// Effects
   useEffect(() => {
     loadFiles();
     buildFolderTree();
+    loadTeamData();
   }, []);
 
   useEffect(() => {
@@ -272,11 +312,139 @@ setFiles(filteredFiles);
 // Team operations
   const switchTeam = async (teamId) => {
     try {
-      setCurrentTeam(teamId);
-      toast.success("Team switched successfully");
-      loadFiles();
+      const team = await teamService.getById(teamId);
+      if (team) {
+        setCurrentTeam(team);
+        
+        // Load team members
+        const members = await Promise.all(
+          team.members.map(async (member) => {
+            const user = await userService.getById(member.Id);
+            return {
+              ...user,
+              role: member.role,
+              joinedAt: member.joinedAt
+            };
+          })
+        );
+        setTeamMembers(members);
+        
+        toast.success(`Switched to ${team.name}`);
+        loadFiles();
+      }
     } catch (err) {
       toast.error("Failed to switch team");
+    }
+  };
+  
+  const createTeam = async (teamData) => {
+    try {
+      const newTeam = await teamService.create({
+        ...teamData,
+        ownerId: currentUser.Id,
+        members: [{ Id: currentUser.Id, role: 'Owner', joinedAt: new Date().toISOString() }]
+      });
+      
+      const updatedTeams = await teamService.getUserTeams(currentUser.Id);
+      setUserTeams(updatedTeams);
+      
+      const allTeams = await teamService.getAll();
+      setAvailableTeams(allTeams);
+      
+      toast.success("Team created successfully");
+      return newTeam;
+    } catch (err) {
+      toast.error("Failed to create team");
+      throw err;
+    }
+  };
+  
+  const joinTeam = async (teamId) => {
+    try {
+      await teamService.addMember(teamId, currentUser.Id, 'Member');
+      
+      const updatedTeams = await teamService.getUserTeams(currentUser.Id);
+      setUserTeams(updatedTeams);
+      
+      toast.success("Successfully joined team");
+    } catch (err) {
+      toast.error("Failed to join team");
+    }
+  };
+  
+  const leaveTeam = async (teamId) => {
+    try {
+      await teamService.removeMember(teamId, currentUser.Id);
+      
+      const updatedTeams = await teamService.getUserTeams(currentUser.Id);
+      setUserTeams(updatedTeams);
+      
+      // If leaving current team, switch to another team or clear current team
+      if (currentTeam && currentTeam.Id === teamId) {
+        const remainingTeams = updatedTeams.filter(t => t.Id !== teamId);
+        if (remainingTeams.length > 0) {
+          await switchTeam(remainingTeams[0].Id);
+        } else {
+          setCurrentTeam(null);
+          setTeamMembers([]);
+        }
+      }
+      
+      toast.success("Successfully left team");
+    } catch (err) {
+      toast.error("Failed to leave team");
+    }
+  };
+  
+  const updateMemberRole = async (teamId, userId, newRole) => {
+    try {
+      await teamService.updateMemberRole(teamId, userId, newRole);
+      
+      // Refresh team members
+      if (currentTeam && currentTeam.Id === teamId) {
+        const updatedTeam = await teamService.getById(teamId);
+        const members = await Promise.all(
+          updatedTeam.members.map(async (member) => {
+            const user = await userService.getById(member.Id);
+            return {
+              ...user,
+              role: member.role,
+              joinedAt: member.joinedAt
+            };
+          })
+        );
+        setTeamMembers(members);
+      }
+      
+      toast.success("Member role updated successfully");
+    } catch (err) {
+      toast.error("Failed to update member role");
+    }
+  };
+  
+  const removeMember = async (teamId, userId) => {
+    try {
+      await teamService.removeMember(teamId, userId);
+      
+      // Refresh team members
+      if (currentTeam && currentTeam.Id === teamId) {
+        const updatedTeam = await teamService.getById(teamId);
+        const members = await Promise.all(
+          updatedTeam.members.map(async (member) => {
+            const user = await userService.getById(member.Id);
+            return {
+              ...user,
+              role: member.role,
+              joinedAt: member.joinedAt
+            };
+          })
+        );
+        setTeamMembers(members);
+      }
+      
+      toast.success("Member removed successfully");
+    } catch (err) {
+      toast.error("Failed to remove member");
     }
   };
 
@@ -310,11 +478,12 @@ setFiles(filteredFiles);
     error,
     advancedFilters,
     
-    // Team state
+// Team state
     currentUser,
     currentTeam,
     userTeams,
     teamMembers,
+    availableTeams,
     
     // Actions
     navigateToPath,
@@ -332,8 +501,13 @@ setFiles(filteredFiles);
     loadFiles,
     setAdvancedFilters,
     
-    // Team actions
+// Team actions
     switchTeam,
+    createTeam,
+    joinTeam,
+    leaveTeam,
+    updateMemberRole,
+    removeMember,
     hasPermission
   };
 };

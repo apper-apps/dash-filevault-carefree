@@ -16,14 +16,20 @@ export const teamService = {
     return team ? { ...team } : null;
   },
 
-  async create(teamData) {
+async create(teamData) {
     await delay(300);
+    const newId = teams.length > 0 ? Math.max(...teams.map(t => t.Id)) + 1 : 1;
     const newTeam = {
       ...teamData,
-      Id: Math.max(...teams.map(t => t.Id)) + 1,
+      Id: newId,
       created: new Date().toISOString(),
       modified: new Date().toISOString(),
-      members: teamData.members || []
+      members: teamData.members || [],
+      settings: teamData.settings || {
+        allowGuestAccess: false,
+        defaultFilePermissions: "team",
+        storageLimit: 10737418240
+      }
     };
     teams.push(newTeam);
     return { ...newTeam };

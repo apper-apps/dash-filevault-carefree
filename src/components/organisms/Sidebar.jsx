@@ -11,7 +11,8 @@ const Sidebar = ({
   onNavigate, 
   isOpen, 
   onToggle,
-  onToggleFavorite
+  onToggleFavorite,
+  onTeamSwitchOpen
 }) => {
 const FolderTreeItem = ({ folder, level = 0, onToggleFavorite }) => {
     const hasChildren = folder.children && folder.children.length > 0;
@@ -151,7 +152,10 @@ currentPath === "/"
                   </div>
                 </div>
               </div>
-              <button className="w-full flex items-center space-x-2 px-3 py-2 text-sm text-neutral-700 hover:bg-neutral-100 rounded-lg transition-colors">
+<button 
+                onClick={onTeamSwitchOpen}
+                className="w-full flex items-center space-x-2 px-3 py-2 text-sm text-neutral-700 hover:bg-neutral-100 rounded-lg transition-colors"
+              >
                 <ApperIcon name="Plus" className="w-4 h-4" />
                 <span>Switch Team</span>
               </button>
@@ -258,7 +262,10 @@ currentPath === "/"
                   </div>
                 </div>
               </div>
-              <button className="w-full flex items-center space-x-2 px-3 py-2 text-sm text-neutral-700 hover:bg-neutral-100 rounded-lg transition-colors">
+<button 
+                onClick={onTeamSwitchOpen}
+                className="w-full flex items-center space-x-2 px-3 py-2 text-sm text-neutral-700 hover:bg-neutral-100 rounded-lg transition-colors"
+              >
                 <ApperIcon name="Plus" className="w-4 h-4" />
                 <span>Switch Team</span>
               </button>

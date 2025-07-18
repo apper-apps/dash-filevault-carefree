@@ -121,7 +121,7 @@ const {
   };
 if (error) {
     return (
-      <div className="min-h-screen bg-neutral-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-primary-50 via-accent-50 to-secondary-50 flex items-center justify-center">
         <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
           <Error message={error} onRetry={loadFiles} />
         </div>
@@ -130,7 +130,7 @@ if (error) {
   }
 
   return (
-    <div className="min-h-screen bg-neutral-50">
+    <div className="min-h-screen bg-gradient-to-br from-primary-50 via-accent-50 to-secondary-50">
       <div className="flex">
 {/* Sidebar */}
         <Sidebar

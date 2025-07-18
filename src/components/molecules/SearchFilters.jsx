@@ -50,8 +50,8 @@ const SearchFilters = ({
 
   const hasActiveFilters = dateRange.start || dateRange.end || sizeRange;
 
-  return (
-    <div className="border-b border-neutral-200 bg-neutral-50">
+return (
+    <div className="border-b border-primary-200 bg-gradient-to-r from-primary-50 via-accent-50 to-secondary-50">
       {/* Toggle Button */}
       <div className="px-4 sm:px-6 lg:px-8">
         <button
@@ -129,8 +129,8 @@ const SearchFilters = ({
               </div>
 
               {/* Custom Size Range Inputs */}
-              {customSizeMode && (
-                <div className="mt-3 p-3 bg-white rounded-lg border border-neutral-200">
+{customSizeMode && (
+                <div className="mt-3 p-3 bg-gradient-to-br from-primary-50 to-accent-50 rounded-lg border border-primary-200">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
                       <label className="block text-xs text-neutral-600 mb-1">Min Size (MB)</label>

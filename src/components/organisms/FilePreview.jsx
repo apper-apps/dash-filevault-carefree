@@ -15,11 +15,11 @@ const FilePreview = ({ file, isOpen, onClose }) => {
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 0.9 }}
-        className="bg-white rounded-lg shadow-xl max-w-4xl max-h-[90vh] overflow-hidden"
+exit={{ opacity: 0, scale: 0.9 }}
+        className="bg-gradient-to-br from-white via-primary-50 to-accent-50 rounded-lg shadow-xl max-w-4xl max-h-[90vh] overflow-hidden"
       >
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-neutral-200">
+        <div className="flex items-center justify-between p-6 border-b border-primary-200">
           <div className="flex items-center space-x-3">
             <FileIcon
               type={file.type}
@@ -44,20 +44,20 @@ const FilePreview = ({ file, isOpen, onClose }) => {
         <div className="p-6">
           {canPreview ? (
             <div className="mb-6">
-              {file.type === "image" ? (
-                <div className="bg-neutral-100 rounded-lg p-4 flex items-center justify-center">
+{file.type === "image" ? (
+                <div className="bg-gradient-to-br from-primary-100 to-accent-100 rounded-lg p-4 flex items-center justify-center">
                   <div className="w-64 h-64 bg-gradient-to-br from-neutral-200 to-neutral-300 rounded-lg flex items-center justify-center">
                     <ApperIcon name="Image" className="w-16 h-16 text-neutral-500" />
                   </div>
                 </div>
-              ) : (
-                <div className="bg-neutral-100 rounded-lg p-4 min-h-[200px] font-mono text-sm">
+) : (
+                <div className="bg-gradient-to-br from-secondary-100 to-accent-100 rounded-lg p-4 min-h-[200px] font-mono text-sm">
                   <p className="text-neutral-600">File content preview would appear here...</p>
                 </div>
               )}
             </div>
-          ) : (
-            <div className="bg-neutral-100 rounded-lg p-8 text-center mb-6">
+) : (
+            <div className="bg-gradient-to-br from-accent-100 to-secondary-100 rounded-lg p-8 text-center mb-6">
               <FileIcon
                 type={file.type}
                 isFolder={file.isFolder}
@@ -88,8 +88,8 @@ const FilePreview = ({ file, isOpen, onClose }) => {
           </div>
         </div>
 
-        {/* Actions */}
-        <div className="bg-neutral-50 px-6 py-4 flex items-center justify-end space-x-3">
+{/* Actions */}
+        <div className="bg-gradient-to-r from-primary-50 to-accent-50 px-6 py-4 flex items-center justify-end space-x-3">
           <Button variant="secondary" onClick={onClose}>
             Close
           </Button>

@@ -32,8 +32,8 @@ const Header = ({
   onSizeRangeChange,
   onClearFilters
 }) => {
-  return (
-    <header className="bg-white border-b border-neutral-200 sticky top-0 z-30">
+return (
+    <header className="bg-gradient-to-r from-white via-primary-50 to-accent-50 border-b border-primary-200 sticky top-0 z-30 shadow-smooth">
     <div className="px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
             {/* Left side - Mobile menu + Breadcrumb */}
@@ -88,9 +88,9 @@ const Header = ({
         <div className="sm:hidden pb-4">
             <Breadcrumb path={currentPath} onNavigate={onNavigate} />
         </div>
-        {/* Selection bar */}
+{/* Selection bar */}
         {selectedFiles.length > 0 && <div
-            className="bg-primary-50 border-t border-primary-200 px-4 py-3 flex items-center justify-between">
+            className="bg-gradient-to-r from-primary-100 to-accent-100 border-t border-primary-300 px-4 py-3 flex items-center justify-between">
             <span className="text-sm text-primary-700">
                 {selectedFiles.length}item{selectedFiles.length > 1 ? "s" : ""}selected
                             </span>

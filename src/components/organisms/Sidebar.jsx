@@ -25,8 +25,8 @@ const FolderTreeItem = ({ folder, level = 0, onToggleFavorite }) => {
             onClick={() => onNavigate(folder.path)}
             className={cn(
               "flex-1 flex items-center space-x-2 px-3 py-2 text-sm rounded-lg transition-colors",
-              isActive 
-                ? "bg-primary-100 text-primary-700" 
+isActive 
+                ? "bg-gradient-to-r from-primary-200 to-accent-200 text-primary-800"
                 : "text-neutral-700 hover:bg-neutral-100",
               level > 0 && "ml-4"
             )}
@@ -94,8 +94,8 @@ const FolderTreeItem = ({ folder, level = 0, onToggleFavorite }) => {
   };
 
   // Desktop sidebar
-  const DesktopSidebar = () => (
-    <div className="hidden lg:block w-64 bg-white border-r border-neutral-200 h-screen overflow-y-auto">
+const DesktopSidebar = () => (
+    <div className="hidden lg:block w-64 bg-gradient-to-b from-white via-primary-50 to-accent-50 border-r border-primary-200 h-screen overflow-y-auto">
       <div className="p-4">
         <div className="flex items-center space-x-2 mb-6">
           <div className="w-8 h-8 bg-gradient-to-br from-primary-500 to-primary-600 rounded-lg flex items-center justify-center">
@@ -110,8 +110,8 @@ const FolderTreeItem = ({ folder, level = 0, onToggleFavorite }) => {
               onClick={() => onNavigate("/")}
               className={cn(
                 "w-full flex items-center space-x-2 px-3 py-2 text-sm rounded-lg transition-colors",
-                currentPath === "/" 
-                  ? "bg-primary-100 text-primary-700" 
+currentPath === "/" 
+                  ? "bg-gradient-to-r from-primary-200 to-accent-200 text-primary-800"
                   : "text-neutral-700 hover:bg-neutral-100"
               )}
             >
@@ -195,8 +195,8 @@ const FolderTreeItem = ({ folder, level = 0, onToggleFavorite }) => {
                 }}
                 className={cn(
                   "w-full flex items-center space-x-2 px-3 py-2 text-sm rounded-lg transition-colors",
-                  currentPath === "/" 
-                    ? "bg-primary-100 text-primary-700" 
+currentPath === "/" 
+                    ? "bg-gradient-to-r from-primary-200 to-accent-200 text-primary-800"
                     : "text-neutral-700 hover:bg-neutral-100"
                 )}
               >

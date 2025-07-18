@@ -33,10 +33,10 @@ const FileList = ({
     }
   };
 
-  return (
-    <div className="bg-white rounded-lg border border-neutral-200 overflow-hidden">
+return (
+    <div className="bg-gradient-to-br from-white via-primary-50 to-accent-50 rounded-lg border border-primary-200 overflow-hidden shadow-smooth">
       {/* Header */}
-      <div className="border-b border-neutral-200 bg-neutral-50">
+      <div className="border-b border-primary-200 bg-gradient-to-r from-primary-100 to-accent-100">
         <div className="grid grid-cols-12 gap-4 px-6 py-3 text-sm font-medium text-neutral-700">
           <div className="col-span-1">
             <input
@@ -74,8 +74,8 @@ const FileList = ({
         </div>
       </div>
 
-      {/* File rows */}
-<div className="divide-y divide-neutral-200">
+{/* File rows */}
+      <div className="divide-y divide-primary-100">
         {files.map((file, index) => (
           <motion.div
             key={file.Id}
@@ -83,8 +83,8 @@ const FileList = ({
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: index * 0.03, type: "spring", stiffness: 100 }}
             className={cn(
-              "grid grid-cols-12 gap-4 px-6 py-4 hover:bg-neutral-50 cursor-pointer transition-all duration-200 group hover:shadow-sm",
-              selectedFiles.includes(file.Id) && "bg-primary-50 shadow-sm"
+              "grid grid-cols-12 gap-4 px-6 py-4 hover:bg-gradient-to-r hover:from-primary-50 hover:to-accent-50 cursor-pointer transition-all duration-200 group hover:shadow-smooth",
+              selectedFiles.includes(file.Id) && "bg-gradient-to-r from-primary-100 to-accent-100 shadow-smooth"
             )}
             onClick={() => onFileClick(file)}
             onDoubleClick={() => onFileDoubleClick(file)}

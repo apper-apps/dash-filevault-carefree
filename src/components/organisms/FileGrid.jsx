@@ -70,7 +70,7 @@ return (
 
 {/* File icon */}
           <div className="flex justify-center mb-4">
-            <div className="w-16 h-16 bg-gradient-to-br from-neutral-100 to-neutral-200 rounded-xl flex items-center justify-center group-hover:shadow-lg transition-all duration-300">
+            <div className="w-16 h-16 bg-gradient-to-br from-primary-100 via-accent-100 to-secondary-100 rounded-xl flex items-center justify-center group-hover:shadow-glow transition-all duration-300">
               <FileIcon
                 type={file.type}
                 isFolder={file.isFolder}

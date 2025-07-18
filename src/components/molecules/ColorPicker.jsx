@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import ApperIcon from "@/components/ApperIcon";
 import { cn } from "@/utils/cn";
 
 const ColorPicker = ({ onColorSelect, currentColor, className }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [dropdownPosition, setDropdownPosition] = useState('right');
+  const containerRef = useRef(null);
   
   const colors = [
     { name: "blue", class: "bg-blue-500", textClass: "text-blue-600" },
@@ -20,8 +22,47 @@ const ColorPicker = ({ onColorSelect, currentColor, className }) => {
     setIsOpen(false);
   };
 
+  useEffect(() => {
+    if (isOpen && containerRef.current) {
+      const rect = containerRef.current.getBoundingClientRect();
+      const viewportWidth = window.innerWidth;
+      const dropdownWidth = 140; // min-w-[140px]
+      const spaceOnRight = viewportWidth - rect.right;
+      const spaceOnLeft = rect.left;
+      
+      // On mobile (< 768px), prioritize staying within viewport
+      if (viewportWidth < 768) {
+        if (spaceOnRight < dropdownWidth && spaceOnLeft > dropdownWidth) {
+          setDropdownPosition('left');
+        } else if (spaceOnRight < dropdownWidth && spaceOnLeft < dropdownWidth) {
+          // Center the dropdown if both sides are constrained
+          setDropdownPosition('center');
+        } else {
+          setDropdownPosition('right');
+        }
+      } else {
+        // Desktop behavior: prefer right, fallback to left
+        setDropdownPosition(spaceOnRight >= dropdownWidth ? 'right' : 'left');
+      }
+    }
+  }, [isOpen]);
+
+  const getDropdownClasses = () => {
+    const baseClasses = "absolute top-8 z-20 bg-white rounded-lg shadow-xl border border-neutral-200 p-3 min-w-[140px] animate-in fade-in slide-in-from-top-2 duration-200";
+    
+    switch (dropdownPosition) {
+      case 'left':
+        return cn(baseClasses, "left-0");
+      case 'center':
+        return cn(baseClasses, "left-1/2 -translate-x-1/2");
+      case 'right':
+      default:
+        return cn(baseClasses, "right-0");
+    }
+  };
+
   return (
-    <div className={cn("relative", className)}>
+    <div ref={containerRef} className={cn("relative", className)}>
       <button
         onClick={(e) => {
           e.stopPropagation();
@@ -39,7 +80,7 @@ const ColorPicker = ({ onColorSelect, currentColor, className }) => {
             className="fixed inset-0 z-10" 
             onClick={() => setIsOpen(false)}
           />
-          <div className="absolute right-0 top-8 z-20 bg-white rounded-lg shadow-xl border border-neutral-200 p-3 min-w-[140px] animate-in fade-in slide-in-from-top-2 duration-200">
+          <div className={getDropdownClasses()}>
             <div className="text-xs font-medium text-neutral-700 mb-3 px-1">
               Choose Color
             </div>

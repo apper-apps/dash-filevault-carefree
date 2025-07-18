@@ -35,9 +35,9 @@ const FileList = ({
 
 return (
     <div className="bg-gradient-to-br from-white via-primary-50 to-accent-50 rounded-lg border border-primary-200 overflow-hidden shadow-smooth">
-      {/* Header */}
+{/* Header */}
       <div className="border-b border-primary-200 bg-gradient-to-r from-primary-100 to-accent-100">
-        <div className="grid grid-cols-12 gap-4 px-6 py-3 text-sm font-medium text-neutral-700">
+        <div className="grid grid-cols-12 gap-2 lg:gap-4 px-4 lg:px-6 py-2 lg:py-3 text-sm font-medium text-neutral-700">
           <div className="col-span-1">
             <input
               type="checkbox"
@@ -81,9 +81,9 @@ return (
             key={file.Id}
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: index * 0.03, type: "spring", stiffness: 100 }}
+transition={{ delay: index * 0.03, type: "spring", stiffness: 100 }}
             className={cn(
-              "grid grid-cols-12 gap-4 px-6 py-4 hover:bg-gradient-to-r hover:from-primary-50 hover:to-accent-50 cursor-pointer transition-all duration-200 group hover:shadow-smooth",
+              "grid grid-cols-12 gap-2 lg:gap-4 px-4 lg:px-6 py-3 lg:py-4 hover:bg-gradient-to-r hover:from-primary-50 hover:to-accent-50 cursor-pointer transition-all duration-200 group hover:shadow-smooth mobile-compact",
               selectedFiles.includes(file.Id) && "bg-gradient-to-r from-primary-100 to-accent-100 shadow-smooth"
             )}
             onClick={() => onFileClick(file)}
@@ -102,29 +102,30 @@ return (
               />
             </div>
 
-            {/* Name */}
-<div className="col-span-6 flex items-center space-x-3">
+{/* Name */}
+<div className="col-span-6 flex items-center space-x-2 lg:space-x-3">
               <FileIcon
                 type={file.type}
                 isFolder={file.isFolder}
-                folderColor={file.color}
-                className="w-5 h-5 flex-shrink-0"
+folderColor={file.color}
+                className="w-4 h-4 lg:w-5 lg:h-5 flex-shrink-0"
               />
-              <span className="text-sm font-medium text-neutral-900 truncate">
+/>
+              <span className="text-xs lg:text-sm font-medium text-neutral-900 truncate">
                 {file.name}
               </span>
             </div>
 
             {/* Size */}
-            <div className="col-span-2 flex items-center">
-              <span className="text-sm text-neutral-600">
+<div className="col-span-2 flex items-center">
+              <span className="text-xs lg:text-sm text-neutral-600">
                 {file.isFolder ? "—" : formatFileSize(file.size)}
               </span>
             </div>
 
             {/* Modified */}
-            <div className="col-span-2 flex items-center">
-              <span className="text-sm text-neutral-600">
+<div className="col-span-2 flex items-center">
+              <span className="text-xs lg:text-sm text-neutral-600">
                 {formatDate(file.modified)}
               </span>
             </div>

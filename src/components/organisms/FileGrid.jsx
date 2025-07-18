@@ -38,7 +38,7 @@ const FileGrid = ({
   };
 
 return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-6">
+    <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7 gap-3 lg:gap-6">
       {files.map((file, index) => (
         <motion.div
           key={file.Id}
@@ -47,8 +47,8 @@ return (
           transition={{ delay: index * 0.05, type: "spring", stiffness: 100 }}
           whileHover={{ scale: 1.03 }}
           whileTap={{ scale: 0.98 }}
-          className={cn(
-            "card card-hover p-6 cursor-pointer group relative overflow-hidden",
+className={cn(
+            "card card-hover p-4 lg:p-6 cursor-pointer group relative overflow-hidden mobile-compact",
             selectedFiles.includes(file.Id) && "ring-2 ring-primary-500 bg-primary-50 shadow-lg"
           )}
           onClick={() => onFileClick(file)}
@@ -69,20 +69,20 @@ return (
           </div>
 
 {/* File icon */}
-          <div className="flex justify-center mb-4">
-            <div className="w-16 h-16 bg-gradient-to-br from-primary-100 via-accent-100 to-secondary-100 rounded-xl flex items-center justify-center group-hover:shadow-glow transition-all duration-300">
+          <div className="flex justify-center mb-3 lg:mb-4">
+            <div className="w-12 h-12 lg:w-16 lg:h-16 bg-gradient-to-br from-primary-100 via-accent-100 to-secondary-100 rounded-xl flex items-center justify-center group-hover:shadow-glow transition-all duration-300">
               <FileIcon
                 type={file.type}
-                isFolder={file.isFolder}
+isFolder={file.isFolder}
                 folderColor={file.color}
-                className="w-8 h-8"
+                className="w-6 h-6 lg:w-8 lg:h-8"
               />
             </div>
           </div>
 
-          {/* File info */}
-          <div className="text-center space-y-2">
-            <h3 className="font-medium text-sm text-neutral-900 truncate" title={file.name}>
+{/* File info */}
+          <div className="text-center space-y-1 lg:space-y-2">
+            <h3 className="font-medium text-xs lg:text-sm text-neutral-900 truncate" title={file.name}>
               {file.name}
             </h3>
             
@@ -91,8 +91,7 @@ return (
                 {file.isFolder ? "Folder" : file.type.toUpperCase()}
               </Badge>
             </div>
-            
-            <div className="text-xs text-neutral-500 space-y-1">
+<div className="text-xs lg:text-xs text-neutral-500 space-y-1">
               {!file.isFolder && (
                 <div>{formatFileSize(file.size)}</div>
               )}

@@ -100,8 +100,8 @@ return (
             </div>
 </div>
 
-<div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/10 rounded-lg transition-all duration-300 flex items-center justify-center lg:opacity-0 lg:group-hover:opacity-100">
-            <div className="flex items-center space-x-3 lg:space-x-3 lg:flex-row flex-col space-y-3 lg:space-y-0">
+<div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/10 rounded-lg transition-all duration-300 flex items-end justify-end p-4 lg:items-center lg:justify-center lg:opacity-0 lg:group-hover:opacity-100">
+            <div className="flex items-end justify-end space-x-3 lg:space-x-3 lg:flex-row flex-col space-y-3 lg:space-y-0">
               {file.isFolder && (
                 <div className="p-2 bg-white rounded-full shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-110">
                   <ColorPicker

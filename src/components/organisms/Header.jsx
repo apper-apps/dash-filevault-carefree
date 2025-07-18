@@ -3,9 +3,9 @@ import SearchBar from "@/components/molecules/SearchBar";
 import ViewToggle from "@/components/molecules/ViewToggle";
 import Breadcrumb from "@/components/molecules/Breadcrumb";
 import SortSelect from "@/components/molecules/SortSelect";
+import FileTypeFilter from "@/components/molecules/FileTypeFilter";
 import Button from "@/components/atoms/Button";
 import ApperIcon from "@/components/ApperIcon";
-
 const Header = ({ 
   currentPath,
   onNavigate,
@@ -16,6 +16,8 @@ const Header = ({
   sortBy,
   sortOrder,
   onSortChange,
+  fileTypeFilter,
+  onFileTypeFilterChange,
   onNewFolder,
   onUpload,
   selectedFiles,
@@ -49,13 +51,20 @@ const Header = ({
             />
           </div>
 
-          {/* Right side - Actions */}
+{/* Right side - Actions */}
           <div className="flex items-center space-x-3">
             <div className="hidden md:block">
               <SortSelect
                 sortBy={sortBy}
                 sortOrder={sortOrder}
                 onSortChange={onSortChange}
+              />
+            </div>
+            
+            <div className="hidden md:block">
+              <FileTypeFilter
+                fileTypeFilter={fileTypeFilter}
+                onFilterChange={onFileTypeFilterChange}
               />
             </div>
             

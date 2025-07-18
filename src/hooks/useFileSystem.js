@@ -8,6 +8,7 @@ export const useFileSystem = () => {
   const [currentPath, setCurrentPath] = useState("/");
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [fileTypeFilter, setFileTypeFilter] = useState("all");
   const [view, setView] = useState("grid");
   const [sortBy, setSortBy] = useState("name");
   const [sortOrder, setSortOrder] = useState("asc");
@@ -34,14 +35,20 @@ export const useFileSystem = () => {
           filteredFiles = [];
         }
       }
-      
-      // Apply search filter
+// Apply search filter
       if (searchQuery) {
         filteredFiles = filteredFiles.filter(f =>
           f.name.toLowerCase().includes(searchQuery.toLowerCase())
         );
       }
       
+      // Apply file type filter
+      if (fileTypeFilter !== "all") {
+        filteredFiles = filteredFiles.filter(f => {
+          if (f.isFolder) return true; // Always show folders
+          return getFileTypeCategory(f.type || f.name) === fileTypeFilter;
+        });
+      }
       // Sort files
       filteredFiles.sort((a, b) => {
         // Folders first
@@ -92,13 +99,32 @@ export const useFileSystem = () => {
     } catch (err) {
       console.error("Failed to build folder tree:", err);
     }
+};
+
+  // Helper function to categorize file types
+  const getFileTypeCategory = (fileName) => {
+    const extension = fileName.split('.').pop()?.toLowerCase();
+    
+    const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'svg', 'webp', 'ico', 'tiff'];
+    const documentExtensions = ['pdf', 'doc', 'docx', 'txt', 'rtf', 'odt', 'xls', 'xlsx', 'ppt', 'pptx', 'csv'];
+    const videoExtensions = ['mp4', 'avi', 'mov', 'wmv', 'flv', 'webm', 'mkv', 'm4v', '3gp'];
+    const audioExtensions = ['mp3', 'wav', 'flac', 'aac', 'ogg', 'm4a', 'wma'];
+    const archiveExtensions = ['zip', 'rar', '7z', 'tar', 'gz', 'bz2', 'xz'];
+    
+    if (imageExtensions.includes(extension)) return 'images';
+    if (documentExtensions.includes(extension)) return 'documents';
+    if (videoExtensions.includes(extension)) return 'videos';
+    if (audioExtensions.includes(extension)) return 'audio';
+    if (archiveExtensions.includes(extension)) return 'archives';
+    return 'other';
   };
 
-  // Navigate to path
+// Navigate to path
   const navigateToPath = (path) => {
     setCurrentPath(path);
     setSelectedFiles([]);
     setSearchQuery("");
+    setFileTypeFilter("all");
   };
 
   // File operations
@@ -176,17 +202,18 @@ export const useFileSystem = () => {
     buildFolderTree();
   }, []);
 
-  useEffect(() => {
+useEffect(() => {
     loadFiles();
-  }, [currentPath, searchQuery, sortBy, sortOrder]);
+  }, [currentPath, searchQuery, fileTypeFilter, sortBy, sortOrder]);
 
-  return {
+return {
     // State
     files,
     folderTree,
     currentPath,
     selectedFiles,
     searchQuery,
+    fileTypeFilter,
     view,
     sortBy,
     sortOrder,
@@ -196,6 +223,7 @@ export const useFileSystem = () => {
     // Actions
     navigateToPath,
     setSearchQuery,
+    setFileTypeFilter,
     setView,
     handleSort,
     createFolder,

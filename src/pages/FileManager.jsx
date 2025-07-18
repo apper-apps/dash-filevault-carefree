@@ -17,12 +17,13 @@ const FileManager = () => {
   const [renameFile, setRenameFile] = useState(null);
   const [newFolderName, setNewFolderName] = useState("");
 
-  const {
+const {
     files,
     folderTree,
     currentPath,
     selectedFiles,
     searchQuery,
+    fileTypeFilter,
     view,
     sortBy,
     sortOrder,
@@ -30,6 +31,7 @@ const FileManager = () => {
     error,
     navigateToPath,
     setSearchQuery,
+    setFileTypeFilter,
     setView,
     handleSort,
     createFolder,
@@ -114,7 +116,7 @@ const FileManager = () => {
 
         {/* Main content */}
         <div className="flex-1 flex flex-col min-w-0">
-          <Header
+<Header
             currentPath={currentPath}
             onNavigate={navigateToPath}
             searchQuery={searchQuery}
@@ -124,6 +126,8 @@ const FileManager = () => {
             sortBy={sortBy}
             sortOrder={sortOrder}
             onSortChange={handleSort}
+            fileTypeFilter={fileTypeFilter}
+            onFileTypeFilterChange={setFileTypeFilter}
             onNewFolder={handleNewFolder}
             onUpload={handleUpload}
             selectedFiles={selectedFiles}

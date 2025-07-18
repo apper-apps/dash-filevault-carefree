@@ -51,9 +51,13 @@ const [searchExpanded, setSearchExpanded] = useState(false);
                 <div className="hidden sm:block">
                     <Breadcrumb path={currentPath} onNavigate={onNavigate} />
                 </div>
-            </div>
+</div>
             {/* Center - Search */}
-            <div className="flex-1 max-w-md mx-4">
+            <div className={`flex-1 mx-4 transition-all duration-300 ease-out ${
+              searchExpanded 
+                ? 'max-w-lg sm:max-w-xl md:max-w-2xl' 
+                : 'max-w-md'
+            }`}>
                 <SearchBar
                     value={searchQuery}
                     onChange={onSearchChange}
@@ -61,7 +65,7 @@ const [searchExpanded, setSearchExpanded] = useState(false);
                     expanded={searchExpanded}
                     onExpandedChange={setSearchExpanded} />
             </div>
-{/* Right side - Actions */}
+            {/* Right side - Actions */}
             <div className="flex items-center space-x-3">
                 <div className="hidden md:block">
                     <SortSelect sortBy={sortBy} sortOrder={sortOrder} onSortChange={onSortChange} />

@@ -66,8 +66,9 @@ colors: {
 boxShadow: {
         'card': '0 1px 3px 0 rgba(6, 182, 212, 0.1), 0 1px 2px 0 rgba(6, 182, 212, 0.06)',
         'card-hover': '0 8px 25px -5px rgba(6, 182, 212, 0.15), 0 4px 6px -2px rgba(6, 182, 212, 0.05)',
-        'smooth': '0 4px 16px 0 rgba(6, 182, 212, 0.12)',
+'smooth': '0 4px 16px 0 rgba(6, 182, 212, 0.12)',
         'glow': '0 0 20px rgba(6, 182, 212, 0.3)',
+        'search-glow': '0 0 15px rgba(6, 182, 212, 0.2)',
       },
     },
   },

@@ -84,7 +84,23 @@ body {
 .Toastify__progress-bar--info {
   @apply bg-blue-500;
 }
-
 .Toastify__close-button {
   @apply text-neutral-400 hover:text-neutral-600;
+}
+
+/* Search Bar Enhancement */
+.search-container {
+  @apply w-full;
+}
+
+.search-expanded {
+  @apply transform scale-105;
+}
+
+.search-collapsed {
+  @apply transform scale-100;
+}
+
+.search-expanded input {
+  @apply shadow-glow ring-2 ring-primary-200;
 }

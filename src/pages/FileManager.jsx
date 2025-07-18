@@ -9,17 +9,16 @@ import FileList from "@/components/organisms/FileList";
 import TeamSwitchModal from "@/components/organisms/TeamSwitchModal";
 import FilePreview from "@/components/organisms/FilePreview";
 import CreateTeamModal from "@/components/organisms/CreateTeamModal";
+import CreateFolderModal from "@/components/organisms/CreateFolderModal";
 import Header from "@/components/organisms/Header";
 import TeamManagementModal from "@/components/organisms/TeamManagementModal";
 import FileGrid from "@/components/organisms/FileGrid";
 import Sidebar from "@/components/organisms/Sidebar";
-
 const FileManager = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [previewFile, setPreviewFile] = useState(null);
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const [renameFile, setRenameFile] = useState(null);
-  const [newFolderName, setNewFolderName] = useState("");
   const [searchFiltersOpen, setSearchFiltersOpen] = useState(false);
   const [dateRange, setDateRange] = useState({ start: '', end: '' });
   const [sizeRange, setSizeRange] = useState(null);
@@ -28,6 +27,8 @@ const FileManager = () => {
   const [teamManagementOpen, setTeamManagementOpen] = useState(false);
   const [teamSwitchOpen, setTeamSwitchOpen] = useState(false);
   const [createTeamOpen, setCreateTeamOpen] = useState(false);
+  const [createFolderOpen, setCreateFolderOpen] = useState(false);
+  
 const {
     files,
     folderTree,
@@ -99,9 +100,16 @@ const handleNewFolder = () => {
       return;
     }
     
-    const name = prompt("Enter folder name:");
-    if (name && name.trim()) {
-      createFolder(name.trim());
+    setCreateFolderOpen(true);
+};
+
+const handleCreateFolder = async (folderName) => {
+    try {
+      await createFolder(folderName);
+      toast.success('Folder created successfully');
+    } catch (error) {
+      toast.error('Failed to create folder');
+      throw error;
     }
 };
 
@@ -421,12 +429,21 @@ isOpen={isPreviewOpen}
         />
       )}
       
-      {/* Create Team Modal */}
+{/* Create Team Modal */}
       {createTeamOpen && (
         <CreateTeamModal
           isOpen={createTeamOpen}
           onClose={() => setCreateTeamOpen(false)}
           onCreateTeam={handleCreateTeam}
+        />
+      )}
+      
+      {/* Create Folder Modal */}
+      {createFolderOpen && (
+        <CreateFolderModal
+          isOpen={createFolderOpen}
+          onClose={() => setCreateFolderOpen(false)}
+          onCreateFolder={handleCreateFolder}
         />
       )}
     </div>

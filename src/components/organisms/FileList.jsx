@@ -129,7 +129,7 @@ return (
               </span>
 </div>
 
-<div className="col-span-1 flex items-center justify-end lg:opacity-0 lg:group-hover:opacity-100 transition-all duration-200">
+<div className="col-span-1 flex items-center justify-end opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-all duration-200">
               <div className="flex items-end justify-end space-x-1 lg:space-x-1 lg:flex-row flex-col space-y-1 lg:space-y-0">
                 {file.isFolder && (
                   <ColorPicker

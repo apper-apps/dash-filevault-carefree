@@ -8,8 +8,8 @@
     font-family: Inter, system-ui, sans-serif;
   }
   
-  body {
-    @apply bg-white text-neutral-900 antialiased;
+body {
+    @apply bg-surface text-neutral-900 antialiased;
   }
 }
 
@@ -18,28 +18,28 @@
     @apply inline-flex items-center justify-center px-4 py-2 text-sm font-medium rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all duration-200 ease-out transform hover:scale-105 active:scale-95;
   }
   
-  .btn-primary {
-    @apply bg-primary text-white hover:bg-primary-600 focus:ring-primary-500 shadow-sm hover:shadow-lg;
+.btn-primary {
+    @apply bg-primary text-white hover:bg-primary-600 focus:ring-primary-500 shadow-sm hover:shadow-glow;
   }
   
-  .btn-secondary {
-    @apply bg-white text-neutral-700 border-neutral-300 hover:bg-neutral-50 focus:ring-primary-500 shadow-sm hover:shadow-lg hover:border-neutral-400;
+.btn-secondary {
+    @apply bg-white text-neutral-700 border-neutral-300 hover:bg-primary-50 focus:ring-primary-500 shadow-sm hover:shadow-lg hover:border-primary-300;
   }
   
-  .btn-ghost {
-    @apply text-neutral-600 hover:text-neutral-800 hover:bg-neutral-100 focus:ring-primary-500 hover:shadow-sm;
+.btn-ghost {
+    @apply text-neutral-600 hover:text-primary-700 hover:bg-primary-50 focus:ring-primary-500 hover:shadow-sm;
   }
   
-  .card {
+.card {
     @apply bg-white rounded-lg shadow-card border border-neutral-200 transition-all duration-300 ease-out;
   }
   
-  .card-hover {
-    @apply hover:shadow-card-hover hover:-translate-y-1 hover:scale-[1.02];
+.card-hover {
+    @apply hover:shadow-card-hover hover:-translate-y-1 hover:scale-[1.02] hover:border-primary-200;
   }
   
-  .input {
-    @apply block w-full px-3 py-2 border border-neutral-300 rounded-md shadow-sm placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200 hover:border-neutral-400;
+.input {
+    @apply block w-full px-3 py-2 border border-neutral-300 rounded-md shadow-sm placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200 hover:border-primary-300 focus:shadow-glow;
   }
 }
 

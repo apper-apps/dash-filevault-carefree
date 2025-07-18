@@ -221,10 +221,10 @@ async search(query, filters = {}) {
           ? `${baseName} (${counter}).${extension}`
           : `${baseName} (${counter})`;
         counter++;
-      } while (files.find(f => f.name === newName && f.parentId === fileData.parentId));
+} while (files.find(f => f.name === newName && f.parentId === fileData.parentId));
       
       fileData.name = newName;
-      fileData.path = fileData.path.replace(/\/[^\/]+$/, `/${newName}`);
+      fileData.path = fileData.path.replace(/\/[^/]+$/, `/${newName}`);
     }
     
     const newFile = {

@@ -7,9 +7,9 @@ const Input = React.forwardRef(({
   ...props 
 }, ref) => {
   return (
-    <input
+<input
       type={type}
-      className={cn("input", className)}
+      className={cn("input hover:shadow-sm focus:shadow-md", className)}
       ref={ref}
       {...props}
     />

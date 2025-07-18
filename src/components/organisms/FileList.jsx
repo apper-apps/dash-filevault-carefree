@@ -75,16 +75,16 @@ const FileList = ({
       </div>
 
       {/* File rows */}
-      <div className="divide-y divide-neutral-200">
+<div className="divide-y divide-neutral-200">
         {files.map((file, index) => (
           <motion.div
             key={file.Id}
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: index * 0.02 }}
+            transition={{ delay: index * 0.03, type: "spring", stiffness: 100 }}
             className={cn(
-              "grid grid-cols-12 gap-4 px-6 py-4 hover:bg-neutral-50 cursor-pointer transition-colors group",
-              selectedFiles.includes(file.Id) && "bg-primary-50"
+              "grid grid-cols-12 gap-4 px-6 py-4 hover:bg-neutral-50 cursor-pointer transition-all duration-200 group hover:shadow-sm",
+              selectedFiles.includes(file.Id) && "bg-primary-50 shadow-sm"
             )}
             onClick={() => onFileClick(file)}
             onDoubleClick={() => onFileDoubleClick(file)}
@@ -129,8 +129,8 @@ const FileList = ({
               </span>
             </div>
 
-            {/* Actions */}
-<div className="col-span-1 flex items-center justify-end opacity-0 group-hover:opacity-100 transition-opacity">
+{/* Actions */}
+            <div className="col-span-1 flex items-center justify-end opacity-0 group-hover:opacity-100 transition-all duration-200">
               <div className="flex items-center space-x-1">
                 {file.isFolder && (
                   <ColorPicker
@@ -143,7 +143,8 @@ const FileList = ({
                     e.stopPropagation();
                     onRename(file);
                   }}
-                  className="p-1 rounded hover:bg-neutral-200 transition-colors"
+                  className="p-1.5 rounded-md hover:bg-neutral-200 transition-all duration-200 hover:scale-110"
+                  title="Rename"
                 >
                   <ApperIcon name="Edit2" className="w-4 h-4 text-neutral-600" />
                 </button>
@@ -152,7 +153,8 @@ const FileList = ({
                     e.stopPropagation();
                     onDelete(file.Id);
                   }}
-                  className="p-1 rounded hover:bg-neutral-200 transition-colors"
+                  className="p-1.5 rounded-md hover:bg-red-50 transition-all duration-200 hover:scale-110"
+                  title="Delete"
                 >
                   <ApperIcon name="Trash2" className="w-4 h-4 text-red-600" />
                 </button>

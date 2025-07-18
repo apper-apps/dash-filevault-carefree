@@ -8,17 +8,17 @@ const Button = React.forwardRef(({
   children,
   ...props 
 }, ref) => {
-  const variants = {
-    primary: "btn btn-primary",
-    secondary: "btn btn-secondary",
-    ghost: "btn btn-ghost",
-    outline: "btn btn-secondary"
+const variants = {
+    primary: "btn btn-primary hover:shadow-lg",
+    secondary: "btn btn-secondary hover:shadow-lg",
+    ghost: "btn btn-ghost hover:shadow-sm",
+    outline: "btn btn-secondary hover:shadow-lg"
   };
 
   const sizes = {
-    sm: "px-3 py-1.5 text-xs",
-    default: "px-4 py-2 text-sm",
-    lg: "px-6 py-3 text-base"
+    sm: "px-3 py-1.5 text-xs min-h-[32px]",
+    default: "px-4 py-2 text-sm min-h-[40px]",
+    lg: "px-6 py-3 text-base min-h-[48px]"
   };
 
   return (

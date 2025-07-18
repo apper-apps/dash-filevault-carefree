@@ -63,16 +63,21 @@ const Header = ({
                     <FileTypeFilter fileTypeFilter={fileTypeFilter} onFilterChange={onFileTypeFilterChange} />
                 </div>
                 <ViewToggle view={view} onViewChange={onViewChange} />
-                <div className="flex items-center space-x-2">
+<div className="flex items-center space-x-2">
                     <Button
                         variant="secondary"
                         size="sm"
                         onClick={onNewFolder}
-                        className="hidden sm:inline-flex">
+                        className="hidden sm:inline-flex hover:shadow-lg transition-all duration-200">
                         <ApperIcon name="FolderPlus" className="w-4 h-4 sm:mr-2" />
                         <span className="hidden sm:inline">New Folder</span>
                     </Button>
-                    <Button variant="primary" size="sm" onClick={onUpload}>
+                    <Button 
+                        variant="primary" 
+                        size="sm" 
+                        onClick={onUpload}
+                        className="hover:shadow-lg transition-all duration-200"
+                    >
                         <ApperIcon name="Upload" className="w-4 h-4 sm:mr-2" />
                         <span className="hidden sm:inline">Upload</span>
                     </Button>

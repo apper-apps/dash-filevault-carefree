@@ -33,27 +33,27 @@ const ColorPicker = ({ onColorSelect, currentColor, className }) => {
         <ApperIcon name="Palette" className="w-4 h-4 text-neutral-600" />
       </button>
       
-      {isOpen && (
+{isOpen && (
         <>
           <div 
             className="fixed inset-0 z-10" 
             onClick={() => setIsOpen(false)}
           />
-          <div className="absolute right-0 top-8 z-20 bg-white rounded-lg shadow-lg border border-neutral-200 p-2 min-w-[140px]">
-            <div className="text-xs font-medium text-neutral-700 mb-2 px-2">
+          <div className="absolute right-0 top-8 z-20 bg-white rounded-lg shadow-xl border border-neutral-200 p-3 min-w-[140px] animate-in fade-in slide-in-from-top-2 duration-200">
+            <div className="text-xs font-medium text-neutral-700 mb-3 px-1">
               Choose Color
             </div>
-            <div className="grid grid-cols-4 gap-1">
+            <div className="grid grid-cols-4 gap-2">
               {colors.map((color) => (
                 <button
                   key={color.name}
                   onClick={() => handleColorSelect(color)}
                   className={cn(
-                    "w-8 h-8 rounded-full border-2 transition-all hover:scale-110",
+                    "w-8 h-8 rounded-full border-2 transition-all duration-200 hover:scale-125 hover:shadow-md",
                     color.class,
                     currentColor === color.name 
-                      ? "border-neutral-900 ring-2 ring-neutral-200" 
-                      : "border-neutral-300"
+                      ? "border-neutral-900 ring-2 ring-neutral-200 scale-110" 
+                      : "border-neutral-300 hover:border-neutral-400"
                   )}
                   title={color.name}
                 />

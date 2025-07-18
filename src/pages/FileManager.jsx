@@ -119,10 +119,12 @@ const {
   const toggleSearchFilters = () => {
     setSearchFiltersOpen(!searchFiltersOpen);
   };
-  if (error) {
+if (error) {
     return (
-      <div className="min-h-screen bg-neutral-50">
-        <Error message={error} onRetry={loadFiles} />
+      <div className="min-h-screen bg-neutral-50 flex items-center justify-center">
+        <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+          <Error message={error} onRetry={loadFiles} />
+        </div>
       </div>
     );
   }

@@ -25,11 +25,14 @@ export const useFileSystem = () => {
     await getFilesByPath(currentPath);
   };
 
-  // Helper function to get files by path
+// Helper function to get files by path
   const getFilesByPath = async (path) => {
     try {
       setLoading(true);
       setError(null);
+      
+      // Add slight delay for better UX
+      await new Promise(resolve => setTimeout(resolve, 150));
       
       let filteredFiles;
       // Handle search with advanced filters
@@ -89,10 +92,10 @@ export const useFileSystem = () => {
         }
       });
       
-      setFiles(filteredFiles);
+setFiles(filteredFiles);
     } catch (err) {
       console.error("Failed to load files:", err);
-      setError("Failed to load files");
+      setError("Unable to load files. Please check your connection and try again.");
     } finally {
       setLoading(false);
     }

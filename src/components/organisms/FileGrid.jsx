@@ -37,17 +37,19 @@ const FileGrid = ({
     // Context menu functionality would go here
   };
 
-  return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4">
+return (
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-6">
       {files.map((file, index) => (
         <motion.div
           key={file.Id}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: index * 0.05 }}
+          transition={{ delay: index * 0.05, type: "spring", stiffness: 100 }}
+          whileHover={{ scale: 1.03 }}
+          whileTap={{ scale: 0.98 }}
           className={cn(
-            "card card-hover p-4 cursor-pointer group relative",
-            selectedFiles.includes(file.Id) && "ring-2 ring-primary-500 bg-primary-50"
+            "card card-hover p-6 cursor-pointer group relative overflow-hidden",
+            selectedFiles.includes(file.Id) && "ring-2 ring-primary-500 bg-primary-50 shadow-lg"
           )}
           onClick={() => onFileClick(file)}
           onDoubleClick={() => onFileDoubleClick(file)}
@@ -66,14 +68,14 @@ const FileGrid = ({
             />
           </div>
 
-          {/* File icon */}
-<div className="flex justify-center mb-3">
-            <div className="w-12 h-12 bg-gradient-to-br from-neutral-100 to-neutral-200 rounded-lg flex items-center justify-center">
+{/* File icon */}
+          <div className="flex justify-center mb-4">
+            <div className="w-16 h-16 bg-gradient-to-br from-neutral-100 to-neutral-200 rounded-xl flex items-center justify-center group-hover:shadow-lg transition-all duration-300">
               <FileIcon
                 type={file.type}
                 isFolder={file.isFolder}
                 folderColor={file.color}
-                className="w-6 h-6"
+                className="w-8 h-8"
               />
             </div>
           </div>
@@ -99,10 +101,10 @@ const FileGrid = ({
           </div>
 
 {/* Hover actions */}
-          <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-5 rounded-lg transition-all duration-200 flex items-center justify-center opacity-0 group-hover:opacity-100">
-            <div className="flex items-center space-x-2">
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/10 rounded-lg transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
+            <div className="flex items-center space-x-3">
               {file.isFolder && (
-                <div className="p-1.5 bg-white rounded-full shadow-sm hover:shadow-md transition-shadow">
+                <div className="p-2 bg-white rounded-full shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-110">
                   <ColorPicker
                     onColorSelect={(color) => onColorChange(file.Id, color)}
                     currentColor={file.color}
@@ -114,7 +116,8 @@ const FileGrid = ({
                   e.stopPropagation();
                   onRename(file);
                 }}
-                className="p-1.5 bg-white rounded-full shadow-sm hover:shadow-md transition-shadow"
+                className="p-2 bg-white rounded-full shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-110"
+                title="Rename"
               >
                 <ApperIcon name="Edit2" className="w-4 h-4 text-neutral-600" />
               </button>
@@ -123,7 +126,8 @@ const FileGrid = ({
                   e.stopPropagation();
                   onDelete(file.Id);
                 }}
-                className="p-1.5 bg-white rounded-full shadow-sm hover:shadow-md transition-shadow"
+                className="p-2 bg-white rounded-full shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-110 hover:bg-red-50"
+                title="Delete"
               >
                 <ApperIcon name="Trash2" className="w-4 h-4 text-red-600" />
               </button>

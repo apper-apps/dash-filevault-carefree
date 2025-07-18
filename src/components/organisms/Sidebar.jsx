@@ -65,20 +65,27 @@ const FolderTreeItem = ({ folder, level = 0, onToggleFavorite }) => {
           </button>
         </div>
         
-        {hasChildren && isExpanded && (
+{hasChildren && isExpanded && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.2, ease: "easeInOut" }}
             className="ml-4 mt-1 space-y-1"
           >
-            {folder.children.map(child => (
-              <FolderTreeItem 
-                key={child.Id} 
-                folder={child} 
-                level={level + 1}
-                onToggleFavorite={onToggleFavorite}
-              />
+            {folder.children.map((child, index) => (
+              <motion.div
+                key={child.Id}
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: index * 0.05 }}
+              >
+                <FolderTreeItem 
+                  folder={child} 
+                  level={level + 1}
+                  onToggleFavorite={onToggleFavorite}
+                />
+              </motion.div>
             ))}
           </motion.div>
         )}

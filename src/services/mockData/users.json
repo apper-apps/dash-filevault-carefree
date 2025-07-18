@@ -1,0 +1,172 @@
+[
+  {
+    "Id": 1,
+    "name": "John Doe",
+    "email": "john.doe@company.com",
+    "role": "Owner",
+    "avatar": null,
+    "created": "2024-01-01T10:00:00Z",
+    "modified": "2024-01-20T15:30:00Z",
+    "isActive": true,
+    "teams": [1, 2],
+    "currentTeam": 1,
+    "preferences": {
+      "theme": "light",
+      "notifications": true,
+      "defaultView": "grid"
+    }
+  },
+  {
+    "Id": 2,
+    "name": "Jane Smith",
+    "email": "jane.smith@company.com",
+    "role": "Admin",
+    "avatar": null,
+    "created": "2024-01-02T09:00:00Z",
+    "modified": "2024-01-19T12:15:00Z",
+    "isActive": true,
+    "teams": [1, 2],
+    "currentTeam": 2,
+    "preferences": {
+      "theme": "light",
+      "notifications": true,
+      "defaultView": "list"
+    }
+  },
+  {
+    "Id": 3,
+    "name": "Mike Johnson",
+    "email": "mike.johnson@company.com",
+    "role": "Member",
+    "avatar": null,
+    "created": "2024-01-03T11:00:00Z",
+    "modified": "2024-01-21T10:45:00Z",
+    "isActive": true,
+    "teams": [1, 3],
+    "currentTeam": 3,
+    "preferences": {
+      "theme": "dark",
+      "notifications": false,
+      "defaultView": "grid"
+    }
+  },
+  {
+    "Id": 4,
+    "name": "Sarah Wilson",
+    "email": "sarah.wilson@company.com",
+    "role": "Member",
+    "avatar": null,
+    "created": "2024-01-10T09:15:00Z",
+    "modified": "2024-01-18T14:20:00Z",
+    "isActive": true,
+    "teams": [1],
+    "currentTeam": 1,
+    "preferences": {
+      "theme": "light",
+      "notifications": true,
+      "defaultView": "grid"
+    }
+  },
+  {
+    "Id": 5,
+    "name": "David Brown",
+    "email": "david.brown@company.com",
+    "role": "Viewer",
+    "avatar": null,
+    "created": "2024-01-15T11:45:00Z",
+    "modified": "2024-01-17T09:30:00Z",
+    "isActive": true,
+    "teams": [1],
+    "currentTeam": 1,
+    "preferences": {
+      "theme": "light",
+      "notifications": true,
+      "defaultView": "list"
+    }
+  },
+  {
+    "Id": 6,
+    "name": "Lisa Davis",
+    "email": "lisa.davis@company.com",
+    "role": "Member",
+    "avatar": null,
+    "created": "2024-01-08T13:20:00Z",
+    "modified": "2024-01-16T16:45:00Z",
+    "isActive": true,
+    "teams": [2],
+    "currentTeam": 2,
+    "preferences": {
+      "theme": "dark",
+      "notifications": false,
+      "defaultView": "grid"
+    }
+  },
+  {
+    "Id": 7,
+    "name": "Chris Anderson",
+    "email": "chris.anderson@company.com",
+    "role": "Member",
+    "avatar": null,
+    "created": "2024-01-12T15:45:00Z",
+    "modified": "2024-01-20T11:15:00Z",
+    "isActive": true,
+    "teams": [2],
+    "currentTeam": 2,
+    "preferences": {
+      "theme": "light",
+      "notifications": true,
+      "defaultView": "list"
+    }
+  },
+  {
+    "Id": 8,
+    "name": "Emily Taylor",
+    "email": "emily.taylor@company.com",
+    "role": "Admin",
+    "avatar": null,
+    "created": "2024-01-07T14:15:00Z",
+    "modified": "2024-01-19T13:30:00Z",
+    "isActive": true,
+    "teams": [3],
+    "currentTeam": 3,
+    "preferences": {
+      "theme": "light",
+      "notifications": true,
+      "defaultView": "grid"
+    }
+  },
+  {
+    "Id": 9,
+    "name": "Alex Martinez",
+    "email": "alex.martinez@company.com",
+    "role": "Member",
+    "avatar": null,
+    "created": "2024-01-11T16:30:00Z",
+    "modified": "2024-01-18T10:20:00Z",
+    "isActive": true,
+    "teams": [3],
+    "currentTeam": 3,
+    "preferences": {
+      "theme": "dark",
+      "notifications": false,
+      "defaultView": "list"
+    }
+  },
+  {
+    "Id": 10,
+    "name": "Rachel Green",
+    "email": "rachel.green@company.com",
+    "role": "Viewer",
+    "avatar": null,
+    "created": "2024-01-16T09:20:00Z",
+    "modified": "2024-01-17T15:45:00Z",
+    "isActive": true,
+    "teams": [3],
+    "currentTeam": 3,
+    "preferences": {
+      "theme": "light",
+      "notifications": true,
+      "defaultView": "grid"
+    }
+  }
+]

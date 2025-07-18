@@ -19,7 +19,12 @@ export const useFileSystem = () => {
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-
+  
+  // Team-related state
+  const [currentUser, setCurrentUser] = useState(null);
+  const [currentTeam, setCurrentTeam] = useState(null);
+  const [userTeams, setUserTeams] = useState([]);
+  const [teamMembers, setTeamMembers] = useState([]);
   // Load files function
   const loadFiles = async () => {
     await getFilesByPath(currentPath);
@@ -264,6 +269,31 @@ setFiles(filteredFiles);
     loadFiles();
   }, [currentPath, searchQuery, fileTypeFilter, sortBy, sortOrder]);
 
+// Team operations
+  const switchTeam = async (teamId) => {
+    try {
+      setCurrentTeam(teamId);
+      toast.success("Team switched successfully");
+      loadFiles();
+    } catch (err) {
+      toast.error("Failed to switch team");
+    }
+  };
+
+  const hasPermission = (action) => {
+    if (!currentUser || !currentTeam) return true; // Default permissions for no team
+    
+    const role = currentUser.role;
+    const permissions = {
+      'Owner': ['create', 'read', 'update', 'delete', 'manage'],
+      'Admin': ['create', 'read', 'update', 'delete'],
+      'Member': ['create', 'read', 'update'],
+      'Viewer': ['read']
+    };
+    
+    return permissions[role]?.includes(action) || false;
+  };
+
   return {
     // State
     files,
@@ -280,6 +310,12 @@ setFiles(filteredFiles);
     error,
     advancedFilters,
     
+    // Team state
+    currentUser,
+    currentTeam,
+    userTeams,
+    teamMembers,
+    
     // Actions
     navigateToPath,
     setSearchQuery,
@@ -294,6 +330,10 @@ setFiles(filteredFiles);
     toggleFileSelection,
     toggleFavorite,
     loadFiles,
-    setAdvancedFilters
+    setAdvancedFilters,
+    
+    // Team actions
+    switchTeam,
+    hasPermission
   };
 };

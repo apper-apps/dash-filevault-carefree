@@ -58,8 +58,7 @@ return (
                     expanded={searchExpanded}
                     onExpandedChange={setSearchExpanded} />
             </div>
-            {/* Right side - Actions */}
-            {/* Right side - Actions */}
+{/* Right side - Actions */}
             <div className="flex items-center space-x-3">
                 <div className="hidden md:block">
                     <SortSelect sortBy={sortBy} sortOrder={sortOrder} onSortChange={onSortChange} />
@@ -68,7 +67,8 @@ return (
                     <FileTypeFilter fileTypeFilter={fileTypeFilter} onFilterChange={onFileTypeFilterChange} />
                 </div>
                 <ViewToggle view={view} onViewChange={onViewChange} />
-<div className="flex items-center space-x-2">
+                
+                <div className="flex items-center space-x-2">
                     <Button
                         variant="secondary"
                         size="sm"
@@ -86,6 +86,20 @@ return (
                         <ApperIcon name="Upload" className="w-4 h-4 sm:mr-2" />
                         <span className="hidden sm:inline">Upload</span>
                     </Button>
+                </div>
+                
+                {/* User Profile Dropdown */}
+                <div className="relative">
+                    <button className="flex items-center space-x-2 p-2 rounded-lg hover:bg-neutral-100 transition-colors">
+                        <div className="w-8 h-8 bg-gradient-to-br from-primary-500 to-accent-500 rounded-full flex items-center justify-center">
+                            <span className="text-white text-sm font-medium">JD</span>
+                        </div>
+                        <div className="hidden md:block text-left">
+                            <div className="text-sm font-medium text-neutral-900">John Doe</div>
+                            <div className="text-xs text-neutral-500">Admin • Design Team</div>
+                        </div>
+                        <ApperIcon name="ChevronDown" className="w-4 h-4 text-neutral-500" />
+                    </button>
                 </div>
             </div>
         </div>

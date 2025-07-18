@@ -1,0 +1,112 @@
+[
+  {
+    "Id": 1,
+    "name": "Design Team",
+    "description": "Creative design and UX/UI team",
+    "created": "2024-01-01T10:00:00Z",
+    "modified": "2024-01-20T15:30:00Z",
+    "ownerId": 1,
+    "settings": {
+      "allowGuestAccess": false,
+      "defaultFilePermissions": "team",
+      "storageLimit": 10737418240
+    },
+    "members": [
+      {
+        "Id": 1,
+        "role": "Owner",
+        "joinedAt": "2024-01-01T10:00:00Z"
+      },
+      {
+        "Id": 2,
+        "role": "Admin",
+        "joinedAt": "2024-01-05T14:20:00Z"
+      },
+      {
+        "Id": 3,
+        "role": "Member",
+        "joinedAt": "2024-01-10T09:15:00Z"
+      },
+      {
+        "Id": 4,
+        "role": "Member",
+        "joinedAt": "2024-01-15T11:45:00Z"
+      },
+      {
+        "Id": 5,
+        "role": "Viewer",
+        "joinedAt": "2024-01-18T16:30:00Z"
+      }
+    ]
+  },
+  {
+    "Id": 2,
+    "name": "Development Team",
+    "description": "Software development and engineering team",
+    "created": "2024-01-02T09:00:00Z",
+    "modified": "2024-01-19T12:15:00Z",
+    "ownerId": 2,
+    "settings": {
+      "allowGuestAccess": true,
+      "defaultFilePermissions": "private",
+      "storageLimit": 21474836480
+    },
+    "members": [
+      {
+        "Id": 2,
+        "role": "Owner",
+        "joinedAt": "2024-01-02T09:00:00Z"
+      },
+      {
+        "Id": 1,
+        "role": "Admin",
+        "joinedAt": "2024-01-03T10:30:00Z"
+      },
+      {
+        "Id": 6,
+        "role": "Member",
+        "joinedAt": "2024-01-08T13:20:00Z"
+      },
+      {
+        "Id": 7,
+        "role": "Member",
+        "joinedAt": "2024-01-12T15:45:00Z"
+      }
+    ]
+  },
+  {
+    "Id": 3,
+    "name": "Marketing Team",
+    "description": "Marketing and communications team",
+    "created": "2024-01-03T11:00:00Z",
+    "modified": "2024-01-21T10:45:00Z",
+    "ownerId": 3,
+    "settings": {
+      "allowGuestAccess": false,
+      "defaultFilePermissions": "team",
+      "storageLimit": 5368709120
+    },
+    "members": [
+      {
+        "Id": 3,
+        "role": "Owner",
+        "joinedAt": "2024-01-03T11:00:00Z"
+      },
+      {
+        "Id": 8,
+        "role": "Admin",
+        "joinedAt": "2024-01-07T14:15:00Z"
+      },
+      {
+        "Id": 9,
+        "role": "Member",
+        "joinedAt": "2024-01-11T16:30:00Z"
+      },
+      {
+        "Id": 10,
+        "role": "Viewer",
+        "joinedAt": "2024-01-16T09:20:00Z"
+      }
+    ]
+  }
+]

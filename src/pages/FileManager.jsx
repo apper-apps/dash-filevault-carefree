@@ -32,6 +32,14 @@ const {
     sortOrder,
     loading,
     error,
+    
+    // Team state
+    currentUser,
+    currentTeam,
+    userTeams,
+    teamMembers,
+    
+    // Actions
     navigateToPath,
     setSearchQuery,
     setFileTypeFilter,
@@ -45,7 +53,11 @@ const {
     toggleFileSelection,
     toggleFavorite,
     loadFiles,
-    setAdvancedFilters
+    setAdvancedFilters,
+    
+    // Team actions
+    switchTeam,
+    hasPermission
   } = useFileSystem();
 
   const handleFileClick = (file) => {
@@ -66,7 +78,12 @@ const {
     }
   };
 
-  const handleNewFolder = () => {
+const handleNewFolder = () => {
+    if (!hasPermission('create')) {
+      toast.error("You don't have permission to create folders");
+      return;
+    }
+    
     const name = prompt("Enter folder name:");
     if (name && name.trim()) {
       createFolder(name.trim());
@@ -84,13 +101,23 @@ const {
     }
   };
 
-  const handleDelete = (fileId) => {
+const handleDelete = (fileId) => {
+    if (!hasPermission('delete')) {
+      toast.error("You don't have permission to delete files");
+      return;
+    }
+    
     if (window.confirm("Are you sure you want to delete this file?")) {
       deleteFile(fileId);
     }
   };
 
-  const handleDeleteSelected = () => {
+const handleDeleteSelected = () => {
+    if (!hasPermission('delete')) {
+      toast.error("You don't have permission to delete files");
+      return;
+    }
+    
     if (window.confirm(`Are you sure you want to delete ${selectedFiles.length} selected files?`)) {
       deleteSelected();
     }

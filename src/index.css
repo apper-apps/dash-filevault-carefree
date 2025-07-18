@@ -119,11 +119,7 @@ body {
     @apply space-x-2;
   }
   
-.mobile-button {
+  .mobile-button {
     @apply p-2 min-w-[40px] min-h-[40px];
-  }
-  
-  .mobile-hamburger-menu {
-    @apply border border-transparent hover:border-primary-200 shadow-sm hover:shadow-md;
   }
 }

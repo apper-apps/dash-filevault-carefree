@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import ApperIcon from "@/components/ApperIcon";
 import SortSelect from "@/components/molecules/SortSelect";
 import FileTypeFilter from "@/components/molecules/FileTypeFilter";
 import Breadcrumb from "@/components/molecules/Breadcrumb";
 import ViewToggle from "@/components/molecules/ViewToggle";
-import SearchBar from "@/components/molecules/SearchBar";
 import SearchFilters from "@/components/molecules/SearchFilters";
+import SearchBar from "@/components/molecules/SearchBar";
 import Button from "@/components/atoms/Button";
 const Header = ({ 
   currentPath,
@@ -30,8 +30,10 @@ const Header = ({
   onDateRangeChange,
   sizeRange,
   onSizeRangeChange,
-  onClearFilters
+  onClearFilters,
 }) => {
+  const [searchExpanded, setSearchExpanded] = useState(false);
+
 return (
     <header className="bg-gradient-to-r from-white via-primary-50 to-accent-50 border-b border-primary-200 sticky top-0 z-30 shadow-smooth">
     <div className="px-4 sm:px-6 lg:px-8">
@@ -52,8 +54,11 @@ return (
                 <SearchBar
                     value={searchQuery}
                     onChange={onSearchChange}
-                    placeholder="Search files and folders..." />
+                    placeholder="Search files and folders..."
+                    expanded={searchExpanded}
+                    onExpandedChange={setSearchExpanded} />
             </div>
+            {/* Right side - Actions */}
             {/* Right side - Actions */}
             <div className="flex items-center space-x-3">
                 <div className="hidden md:block">

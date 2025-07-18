@@ -22,8 +22,8 @@ const Breadcrumb = ({ path, onNavigate }) => {
         const segmentPath = "/" + pathSegments.slice(0, index + 1).join("/");
         const isLast = index === pathSegments.length - 1;
         
-        return (
-          <React.Fragment key={segmentPath}>
+return (
+          <div key={segmentPath} className="flex items-center">
             <ApperIcon name="ChevronRight" className="w-4 h-4 text-neutral-400" />
             <button
               onClick={() => onNavigate(segmentPath)}
@@ -34,7 +34,7 @@ const Breadcrumb = ({ path, onNavigate }) => {
             >
               {segment}
             </button>
-          </React.Fragment>
+          </div>
         );
       })}
     </nav>

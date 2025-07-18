@@ -35,24 +35,10 @@ const FileGrid = ({
   const handleContextMenu = (e, file) => {
     e.preventDefault();
     // Context menu functionality would go here
-};
-
-  // Helper function to detect main folders for mobile 2x2 layout
-  const isMainFolderSet = (files) => {
-    const mainFolders = ['Documents', 'Downloads', 'Images', 'Videos'];
-    return files.length === 4 && 
-           files.every(file => file.isFolder && mainFolders.includes(file.name)) &&
-           files.every(file => file.parentId === null);
   };
 
-  const shouldUseMobile2x2 = isMainFolderSet(files);
-
 return (
-    <div className={`grid gap-3 lg:gap-6 ${
-      shouldUseMobile2x2 
-        ? 'grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7' 
-        : 'grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7'
-    }`}>
+    <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7 gap-3 lg:gap-6">
       {files.map((file, index) => (
         <motion.div
           key={file.Id}

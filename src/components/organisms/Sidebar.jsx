@@ -189,15 +189,15 @@ currentPath === "/"
         />
       )}
       
-      {/* Sidebar */}
+{/* Sidebar */}
       <div 
         className={cn(
           "fixed inset-y-0 left-0 z-50 w-64 bg-white transform transition-transform duration-300 ease-in-out lg:hidden",
           isOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >
-        <div className="p-4">
-          <div className="flex items-center justify-between mb-6">
+        <div className="p-3">
+          <div className="flex items-center justify-between mb-5">
             <div className="flex items-center space-x-2">
               <div className="w-8 h-8 bg-gradient-to-br from-primary-500 to-primary-600 rounded-lg flex items-center justify-center">
                 <ApperIcon name="HardDrive" className="w-5 h-5 text-white" />
@@ -211,7 +211,6 @@ currentPath === "/"
               <ApperIcon name="X" className="w-5 h-5" />
             </button>
           </div>
-
           <nav className="space-y-2">
             <div className="mb-4">
               <button
@@ -245,10 +244,9 @@ currentPath === "/"
                 ))}
               </div>
 )}
-            
-            {/* Team Section */}
-            <div className="space-y-1 mb-4">
-              <div className="px-3 py-2 text-xs font-medium text-neutral-500 uppercase tracking-wide">
+{/* Team Section */}
+            <div className="space-y-1 mb-3">
+              <div className="px-3 py-1 text-xs font-medium text-neutral-500 uppercase tracking-wide">
                 Team
               </div>
               <div className="px-3 py-2 bg-gradient-to-r from-primary-100 to-accent-100 rounded-lg">
@@ -262,7 +260,7 @@ currentPath === "/"
                   </div>
                 </div>
               </div>
-<button 
+              <button 
                 onClick={onTeamSwitchOpen}
                 className="w-full flex items-center space-x-2 px-3 py-2 text-sm text-neutral-700 hover:bg-neutral-100 rounded-lg transition-colors"
               >
@@ -271,8 +269,8 @@ currentPath === "/"
               </button>
             </div>
 
-            <div className="space-y-1">
-              <div className="px-3 py-2 text-xs font-medium text-neutral-500 uppercase tracking-wide">
+<div className="space-y-1">
+              <div className="px-3 py-1 text-xs font-medium text-neutral-500 uppercase tracking-wide">
                 Folders
               </div>
               {folderTree.map(folder => (

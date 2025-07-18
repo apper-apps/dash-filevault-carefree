@@ -314,7 +314,7 @@ sizeRange={sizeRange}
           />
 {/* File content */}
           <main 
-            className={`flex-1 p-4 sm:p-6 lg:p-8 transition-all duration-200 ${
+            className={`flex-1 p-3 sm:p-4 lg:p-6 transition-all duration-200 ${
               dragOver ? 'bg-primary-50 border-2 border-dashed border-primary-300' : ''
             }`}
             onDragOver={handleDragOver}

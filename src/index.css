@@ -104,3 +104,22 @@ body {
 .search-expanded input {
   @apply shadow-glow ring-2 ring-primary-200;
 }
+
+/* Mobile-optimized layouts */
+@media (max-width: 1023px) {
+  .mobile-compact {
+    @apply p-3 space-y-2;
+  }
+  
+  .mobile-header {
+    @apply h-12 px-4 py-2;
+  }
+  
+  .mobile-nav {
+    @apply space-x-2;
+  }
+  
+  .mobile-button {
+    @apply p-2 min-w-[40px] min-h-[40px];
+  }
+}

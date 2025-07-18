@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
-import { fileService } from "@/services/api/fileService";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { fileService } from "@/services/api/fileService";
 
 export const useFileSystem = () => {
   const [files, setFiles] = useState([]);
@@ -13,29 +13,47 @@ export const useFileSystem = () => {
   const [view, setView] = useState("grid");
   const [sortBy, setSortBy] = useState("name");
   const [sortOrder, setSortOrder] = useState("asc");
+  const [advancedFilters, setAdvancedFilters] = useState({
+    dateRange: { start: '', end: '' },
+    sizeRange: null
+  });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  // Load files for current path
-  const loadFiles = async (path = currentPath) => {
-    setLoading(true);
-    setError(null);
-    
+
+  // Load files function
+  const loadFiles = async () => {
+    await getFilesByPath(currentPath);
+  };
+
+  // Helper function to get files by path
+  const getFilesByPath = async (path) => {
     try {
-      const allFiles = await fileService.getAll();
+      setLoading(true);
+      setError(null);
       
-      // Filter files for current path
       let filteredFiles;
-      if (path === "/") {
-        filteredFiles = allFiles.filter(f => f.parentId === null);
-      } else {
-        const parent = allFiles.find(f => f.path === path);
-        if (parent) {
-          filteredFiles = allFiles.filter(f => f.parentId === parent.Id);
-        } else {
-          filteredFiles = [];
+      // Handle search with advanced filters
+      if (searchQuery || advancedFilters.dateRange.start || advancedFilters.dateRange.end || advancedFilters.sizeRange) {
+        filteredFiles = await fileService.search(searchQuery, advancedFilters);
+        
+        // For search results, we might want to show files from all paths
+        // but if we're in a specific folder, filter by path as well
+        if (!searchQuery && (advancedFilters.dateRange.start || advancedFilters.dateRange.end || advancedFilters.sizeRange)) {
+          filteredFiles = filteredFiles.filter(file => {
+            const filePath = file.path.split('/').slice(0, -1).join('/') || '/';
+            return filePath === path;
+          });
         }
+      } else {
+        // Get all files and filter by current path
+        const allFiles = await fileService.getAll();
+        filteredFiles = allFiles.filter(file => {
+          const filePath = file.path.split('/').slice(0, -1).join('/') || '/';
+          return filePath === path;
+        });
       }
-// Apply search filter
+      
+      // Apply search filter
       if (searchQuery) {
         filteredFiles = filteredFiles.filter(f =>
           f.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -49,6 +67,7 @@ export const useFileSystem = () => {
           return getFileTypeCategory(f.type || f.name) === fileTypeFilter;
         });
       }
+      
       // Sort files
       filteredFiles.sort((a, b) => {
         // Folders first
@@ -72,14 +91,14 @@ export const useFileSystem = () => {
       
       setFiles(filteredFiles);
     } catch (err) {
+      console.error("Failed to load files:", err);
       setError("Failed to load files");
-      toast.error("Failed to load files");
     } finally {
       setLoading(false);
     }
   };
 
-// Build folder tree
+  // Build folder tree
   const buildFolderTree = async () => {
     try {
       const allFiles = await fileService.getAll();
@@ -123,7 +142,7 @@ export const useFileSystem = () => {
     return 'other';
   };
 
-// Navigate to path
+  // Navigate to path
   const navigateToPath = (path) => {
     setCurrentPath(path);
     setSelectedFiles([]);
@@ -173,7 +192,7 @@ export const useFileSystem = () => {
     } catch (err) {
       toast.error("Failed to delete file");
     }
-};
+  };
 
   const changeFolderColor = async (fileId, color) => {
     try {
@@ -196,7 +215,7 @@ export const useFileSystem = () => {
     } catch (err) {
       toast.error("Failed to delete selected files");
     }
-};
+  };
 
   const toggleFavorite = async (folderId) => {
     try {
@@ -222,17 +241,27 @@ export const useFileSystem = () => {
     setSortOrder(order);
   };
 
+  // Load files when path, search, or filters change
+  useEffect(() => {
+    getFilesByPath(currentPath);
+  }, [currentPath, searchQuery, fileTypeFilter, advancedFilters]);
+
+  // Build folder tree
+  useEffect(() => {
+    buildFolderTree();
+  }, []);
+
   // Effects
   useEffect(() => {
     loadFiles();
     buildFolderTree();
   }, []);
 
-useEffect(() => {
+  useEffect(() => {
     loadFiles();
   }, [currentPath, searchQuery, fileTypeFilter, sortBy, sortOrder]);
 
-return {
+  return {
     // State
     files,
     folderTree,
@@ -246,6 +275,7 @@ return {
     sortOrder,
     loading,
     error,
+    advancedFilters,
     
     // Actions
     navigateToPath,
@@ -260,6 +290,7 @@ return {
     changeFolderColor,
     toggleFileSelection,
     toggleFavorite,
-    loadFiles
+    loadFiles,
+    setAdvancedFilters
   };
 };

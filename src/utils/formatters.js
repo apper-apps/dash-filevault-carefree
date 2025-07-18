@@ -38,3 +38,39 @@ export const calculateStorage = (files) => {
     usagePercentage
   };
 };
+
+export const isValidDateRange = (dateRange) => {
+  if (!dateRange || (!dateRange.start && !dateRange.end)) {
+    return true;
+  }
+  
+  if (dateRange.start && dateRange.end) {
+    const startDate = new Date(dateRange.start);
+    const endDate = new Date(dateRange.end);
+    return startDate <= endDate;
+  }
+  
+  return true;
+};
+
+export const formatSizeRange = (sizeRange) => {
+  if (!sizeRange) return 'All sizes';
+  
+  const formatSize = (bytes) => {
+    if (bytes === null || bytes === undefined) return null;
+    return formatFileSize(bytes);
+  };
+  
+  const min = formatSize(sizeRange.min);
+  const max = formatSize(sizeRange.max);
+  
+  if (min && max) {
+    return `${min} - ${max}`;
+  } else if (min) {
+    return `> ${min}`;
+  } else if (max) {
+    return `< ${max}`;
+  }
+  
+  return 'Custom range';
+};

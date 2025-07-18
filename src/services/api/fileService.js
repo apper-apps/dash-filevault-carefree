@@ -154,11 +154,45 @@ return { ...files[fileIndex] };
     return null;
   },
 
-  async search(query) {
+async search(query, filters = {}) {
     await delay(200);
     const searchTerm = query.toLowerCase();
+    const { dateRange, sizeRange } = filters;
+    
     return files
-      .filter(f => f.name.toLowerCase().includes(searchTerm))
+      .filter(f => {
+        // Text search filter
+        const matchesSearch = !query || f.name.toLowerCase().includes(searchTerm);
+        
+        // Date range filter
+        let matchesDate = true;
+        if (dateRange && (dateRange.start || dateRange.end)) {
+          const fileDate = new Date(f.modified);
+          if (dateRange.start) {
+            const startDate = new Date(dateRange.start);
+            matchesDate = matchesDate && fileDate >= startDate;
+          }
+          if (dateRange.end) {
+            const endDate = new Date(dateRange.end);
+            endDate.setHours(23, 59, 59, 999); // Include the entire end date
+            matchesDate = matchesDate && fileDate <= endDate;
+          }
+        }
+        
+        // Size range filter (only for files, not folders)
+        let matchesSize = true;
+        if (sizeRange && !f.isFolder) {
+          const fileSize = f.size || 0;
+          if (sizeRange.min !== undefined) {
+            matchesSize = matchesSize && fileSize >= sizeRange.min;
+          }
+          if (sizeRange.max !== undefined && sizeRange.max !== null) {
+            matchesSize = matchesSize && fileSize <= sizeRange.max;
+          }
+        }
+        
+        return matchesSearch && matchesDate && matchesSize;
+      })
       .map(f => ({ ...f }));
   }
 };

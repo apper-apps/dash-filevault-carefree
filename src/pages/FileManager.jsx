@@ -16,7 +16,9 @@ const FileManager = () => {
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const [renameFile, setRenameFile] = useState(null);
   const [newFolderName, setNewFolderName] = useState("");
-
+  const [searchFiltersOpen, setSearchFiltersOpen] = useState(false);
+  const [dateRange, setDateRange] = useState({ start: '', end: '' });
+  const [sizeRange, setSizeRange] = useState(null);
 const {
     files,
     folderTree,
@@ -42,7 +44,8 @@ const {
     changeFolderColor,
     toggleFileSelection,
     toggleFavorite,
-    loadFiles
+    loadFiles,
+    setAdvancedFilters
   } = useFileSystem();
 
   const handleFileClick = (file) => {
@@ -95,8 +98,27 @@ const {
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
+};
+
+  const handleDateRangeChange = (newDateRange) => {
+    setDateRange(newDateRange);
+    setAdvancedFilters({ dateRange: newDateRange, sizeRange });
   };
 
+  const handleSizeRangeChange = (newSizeRange) => {
+    setSizeRange(newSizeRange);
+    setAdvancedFilters({ dateRange, sizeRange: newSizeRange });
+  };
+
+  const handleClearFilters = () => {
+    setDateRange({ start: '', end: '' });
+    setSizeRange(null);
+    setAdvancedFilters({ dateRange: { start: '', end: '' }, sizeRange: null });
+  };
+
+  const toggleSearchFilters = () => {
+    setSearchFiltersOpen(!searchFiltersOpen);
+  };
   if (error) {
     return (
       <div className="min-h-screen bg-neutral-50">
@@ -138,6 +160,13 @@ const {
             selectedFiles={selectedFiles}
             onDeleteSelected={handleDeleteSelected}
             onSidebarToggle={toggleSidebar}
+            searchFiltersOpen={searchFiltersOpen}
+            onSearchFiltersToggle={toggleSearchFilters}
+            dateRange={dateRange}
+            onDateRangeChange={handleDateRangeChange}
+            sizeRange={sizeRange}
+            onSizeRangeChange={handleSizeRangeChange}
+            onClearFilters={handleClearFilters}
           />
 
           {/* File content */}

@@ -5,6 +5,7 @@ import FileTypeFilter from "@/components/molecules/FileTypeFilter";
 import Breadcrumb from "@/components/molecules/Breadcrumb";
 import ViewToggle from "@/components/molecules/ViewToggle";
 import SearchBar from "@/components/molecules/SearchBar";
+import SearchFilters from "@/components/molecules/SearchFilters";
 import Button from "@/components/atoms/Button";
 const Header = ({ 
   currentPath,
@@ -22,7 +23,14 @@ const Header = ({
   onUpload,
   selectedFiles,
   onDeleteSelected,
-  onSidebarToggle
+  onSidebarToggle,
+  searchFiltersOpen,
+  onSearchFiltersToggle,
+  dateRange,
+  onDateRangeChange,
+  sizeRange,
+  onSizeRangeChange,
+  onClearFilters
 }) => {
   return (
     <header className="bg-white border-b border-neutral-200 sticky top-0 z-30">
@@ -91,6 +99,16 @@ const Header = ({
                                   </Button>
             </div>
         </div>}
+{/* Search Filters Panel */}
+        <SearchFilters
+          isOpen={searchFiltersOpen}
+          onToggle={onSearchFiltersToggle}
+          dateRange={dateRange}
+          onDateRangeChange={onDateRangeChange}
+          sizeRange={sizeRange}
+          onSizeRangeChange={onSizeRangeChange}
+          onClearFilters={onClearFilters}
+        />
     </div>
 </header>
   );

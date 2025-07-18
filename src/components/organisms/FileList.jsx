@@ -1,9 +1,9 @@
 import React from "react";
 import { motion } from "framer-motion";
-import FileIcon from "@/components/molecules/FileIcon";
 import ApperIcon from "@/components/ApperIcon";
+import FileIcon from "@/components/molecules/FileIcon";
+import { formatDate, formatFileSize } from "@/utils/formatters";
 import { cn } from "@/utils/cn";
-import { formatFileSize, formatDate } from "@/utils/formatters";
 
 const FileList = ({ 
   files, 
@@ -127,8 +127,22 @@ const FileList = ({
             </div>
 
             {/* Actions */}
-            <div className="col-span-1 flex items-center justify-end opacity-0 group-hover:opacity-100 transition-opacity">
+<div className="col-span-1 flex items-center justify-end opacity-0 group-hover:opacity-100 transition-opacity">
               <div className="flex items-center space-x-1">
+{file.isFolder && (
+                  <div className="relative group/color">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        // Color change functionality would be implemented here
+                      }}
+                      className="p-1 rounded hover:bg-neutral-200 transition-colors"
+                      title="Change folder color"
+                    >
+                      <ApperIcon name="Palette" className="w-4 h-4 text-neutral-600" />
+                    </button>
+                  </div>
+                )}
                 <button
                   onClick={(e) => {
                     e.stopPropagation();

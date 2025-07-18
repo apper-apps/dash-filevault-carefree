@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
-import Header from "@/components/organisms/Header";
-import Sidebar from "@/components/organisms/Sidebar";
-import FileGrid from "@/components/organisms/FileGrid";
+import { useFileSystem } from "@/hooks/useFileSystem";
+import Empty from "@/components/ui/Empty";
+import Error from "@/components/ui/Error";
+import Loading from "@/components/ui/Loading";
 import FileList from "@/components/organisms/FileList";
 import FilePreview from "@/components/organisms/FilePreview";
-import Loading from "@/components/ui/Loading";
-import Error from "@/components/ui/Error";
-import Empty from "@/components/ui/Empty";
-import { useFileSystem } from "@/hooks/useFileSystem";
+import Header from "@/components/organisms/Header";
+import FileGrid from "@/components/organisms/FileGrid";
+import Sidebar from "@/components/organisms/Sidebar";
 
 const FileManager = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -160,7 +160,7 @@ const {
                 onRename={handleRename}
                 onDelete={handleDelete}
               />
-            ) : (
+) : (
               <FileList
                 files={files}
                 selectedFiles={selectedFiles}

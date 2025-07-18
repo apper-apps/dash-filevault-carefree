@@ -2,10 +2,11 @@ import React from "react";
 import ApperIcon from "@/components/ApperIcon";
 import { cn } from "@/utils/cn";
 
-const FileIcon = ({ type, isFolder, className }) => {
+const FileIcon = ({ type, isFolder, className, folderColor }) => {
   const getIconAndColor = () => {
     if (isFolder) {
-      return { icon: "Folder", color: "text-primary-600" };
+      const colorClass = folderColor ? `text-${folderColor}` : "text-primary-600";
+      return { icon: "Folder", color: colorClass };
     }
 
     switch (type) {

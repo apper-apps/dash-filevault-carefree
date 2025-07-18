@@ -95,9 +95,21 @@ const FileGrid = ({
             </div>
           </div>
 
-          {/* Hover actions */}
+{/* Hover actions */}
           <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-5 rounded-lg transition-all duration-200 flex items-center justify-center opacity-0 group-hover:opacity-100">
             <div className="flex items-center space-x-2">
+              {file.isFolder && (
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleContextMenu(e, file);
+                  }}
+                  className="p-1.5 bg-white rounded-full shadow-sm hover:shadow-md transition-shadow"
+                  title="Change folder color"
+                >
+                  <ApperIcon name="Palette" className="w-4 h-4 text-neutral-600" />
+                </button>
+              )}
               <button
                 onClick={(e) => {
                   e.stopPropagation();

@@ -103,7 +103,6 @@ const handleNewFolder = () => {
     if (name && name.trim()) {
       createFolder(name.trim());
     }
-  };
 };
 
   const fileInputRef = React.useRef(null);
@@ -142,7 +141,7 @@ const handleNewFolder = () => {
     }
   };
 
-  // Create upload handler object for Header
+// Create upload handler object for Header
   const uploadHandler = {
     fileInputRef,
     handleFileSelect
@@ -153,8 +152,10 @@ const handleNewFolder = () => {
   handleUpload.handleFileSelect = handleFileSelect;
 
   const handleUploadClick = () => {
+    fileInputRef.current?.click();
+  };
 
-  const handleRename = (file) => {
+const handleRename = (file) => {
     const newName = prompt("Enter new name:", file.name);
     if (newName && newName.trim() && newName !== file.name) {
       renameFileAction(file.Id, newName.trim());

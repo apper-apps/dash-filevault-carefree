@@ -107,10 +107,9 @@ transition={{ delay: index * 0.03, type: "spring", stiffness: 100 }}
               <FileIcon
                 type={file.type}
                 isFolder={file.isFolder}
-folderColor={file.color}
+                folderColor={file.color}
                 className="w-4 h-4 lg:w-5 lg:h-5 flex-shrink-0"
               />
-/>
               <span className="text-xs lg:text-sm font-medium text-neutral-900 truncate">
                 {file.name}
               </span>

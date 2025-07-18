@@ -1,27 +1,27 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import ApperIcon from '@/components/ApperIcon';
-import Button from '@/components/atoms/Button';
-import Input from '@/components/atoms/Input';
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import ApperIcon from "@/components/ApperIcon";
+import Input from "@/components/atoms/Input";
+import Button from "@/components/atoms/Button";
 
 const CreateFolderModal = ({ isOpen, onClose, onCreateFolder }) => {
   const [folderName, setFolderName] = useState('');
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const validateForm = () => {
+const validateForm = () => {
     const newErrors = {};
     
     if (!folderName.trim()) {
       newErrors.folderName = 'Folder name is required';
     } else if (folderName.trim().length < 2) {
-} else if (folderName.trim().length > 50) {
+      newErrors.folderName = 'Folder name must be at least 2 characters';
+    } else if (folderName.trim().length > 50) {
       newErrors.folderName = 'Folder name must be less than 50 characters';
     } else if (!/^[a-zA-Z0-9\s_.-]+$/.test(folderName.trim())) {
-      newErrors.folderName = 'Folder name contains invalid characters';
+      newErrors.folderName = 'Folder name can only contain letters, numbers, spaces, underscores, periods, and hyphens';
     }
-    
-    setErrors(newErrors);
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };

@@ -127,10 +127,10 @@ return (
               <span className="text-sm text-neutral-600">
                 {formatDate(file.modified)}
               </span>
-            </div>
+</div>
 
 {/* Actions */}
-            <div className="col-span-1 flex items-center justify-end opacity-0 group-hover:opacity-100 transition-all duration-200">
+            <div className="col-span-1 flex items-center justify-end lg:opacity-0 lg:group-hover:opacity-100 transition-all duration-200">
               <div className="flex items-center space-x-1">
                 {file.isFolder && (
                   <ColorPicker

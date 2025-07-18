@@ -98,10 +98,10 @@ return (
               )}
               <div>{formatDate(file.modified)}</div>
             </div>
-          </div>
+</div>
 
 {/* Hover actions */}
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/10 rounded-lg transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/10 rounded-lg transition-all duration-300 flex items-center justify-center lg:opacity-0 lg:group-hover:opacity-100">
             <div className="flex items-center space-x-3">
               {file.isFolder && (
                 <div className="p-2 bg-white rounded-full shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-110">

@@ -5,7 +5,7 @@ import { cn } from "@/utils/cn";
 const ColorPicker = ({ onColorSelect, currentColor, className }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [dropdownPosition, setDropdownPosition] = useState('right');
-  const containerRef = useRef(null);
+const containerRef = useRef(null);
   
   const colors = [
     { name: "blue", class: "bg-blue-500", textClass: "text-blue-600" },
@@ -14,7 +14,15 @@ const ColorPicker = ({ onColorSelect, currentColor, className }) => {
     { name: "purple", class: "bg-purple-500", textClass: "text-purple-600" },
     { name: "pink", class: "bg-pink-500", textClass: "text-pink-600" },
     { name: "orange", class: "bg-orange-500", textClass: "text-orange-600" },
-    { name: "red", class: "bg-red-500", textClass: "text-red-600" }
+    { name: "red", class: "bg-red-500", textClass: "text-red-600" },
+    { name: "cyan", class: "bg-cyan-500", textClass: "text-cyan-600" },
+    { name: "indigo", class: "bg-indigo-500", textClass: "text-indigo-600" },
+    { name: "teal", class: "bg-teal-500", textClass: "text-teal-600" },
+    { name: "slate", class: "bg-slate-500", textClass: "text-slate-600" },
+    { name: "emerald", class: "bg-emerald-500", textClass: "text-emerald-600" },
+    { name: "rose", class: "bg-rose-500", textClass: "text-rose-600" },
+    { name: "violet", class: "bg-violet-500", textClass: "text-violet-600" },
+    { name: "amber", class: "bg-amber-500", textClass: "text-amber-600" }
   ];
 
   const handleColorSelect = (color) => {
@@ -82,9 +90,9 @@ const ColorPicker = ({ onColorSelect, currentColor, className }) => {
           />
           <div className={getDropdownClasses()}>
             <div className="text-xs font-medium text-neutral-700 mb-3 px-1">
-              Choose Color
+Choose Color
             </div>
-            <div className="grid grid-cols-4 gap-2">
+            <div className="grid grid-cols-5 gap-2">
               {colors.map((color) => (
                 <button
                   key={color.name}

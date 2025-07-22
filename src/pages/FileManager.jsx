@@ -15,14 +15,27 @@ import TeamManagementModal from "@/components/organisms/TeamManagementModal";
 import FileGrid from "@/components/organisms/FileGrid";
 import MoveFolderModal from "@/components/organisms/MoveFolderModal";
 import Sidebar from "@/components/organisms/Sidebar";
+import RenameModal from "@/components/organisms/RenameModal";
+import ConfirmationModal from "@/components/organisms/ConfirmationModal";
 const FileManager = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [previewFile, setPreviewFile] = useState(null);
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const [renameFile, setRenameFile] = useState(null);
+  const [renameModalOpen, setRenameModalOpen] = useState(false);
   const [searchFiltersOpen, setSearchFiltersOpen] = useState(false);
   const [dateRange, setDateRange] = useState({ start: '', end: '' });
   const [sizeRange, setSizeRange] = useState(null);
+  
+  // Confirmation modal state
+  const [confirmationModal, setConfirmationModal] = useState({
+    isOpen: false,
+    title: '',
+    message: '',
+    onConfirm: null,
+    confirmText: 'Confirm',
+    cancelText: 'Cancel'
+  });
   
   // Team management modals
   const [teamManagementOpen, setTeamManagementOpen] = useState(false);
@@ -31,7 +44,6 @@ const [createTeamOpen, setCreateTeamOpen] = useState(false);
   const [createFolderOpen, setCreateFolderOpen] = useState(false);
   const [moveFolderOpen, setMoveFolderOpen] = useState(false);
   const [moveFileData, setMoveFileData] = useState(null);
-  
 const {
     files,
     folderTree,
@@ -164,34 +176,73 @@ const fileInputRef = React.useRef(null);
     fileInputRef.current?.click();
   };
 const handleRename = (file) => {
-    const newName = prompt("Enter new name:", file.name);
-    if (newName && newName.trim() && newName !== file.name) {
-      renameFileAction(file.Id, newName.trim());
-    }
+    setRenameFile(file);
+    setRenameModalOpen(true);
   };
 
+  const handleRenameConfirm = (newName) => {
+    if (renameFile && newName && newName.trim() && newName !== renameFile.name) {
+      renameFileAction(renameFile.Id, newName.trim());
+    }
+    setRenameFile(null);
+    setRenameModalOpen(false);
+  };
+
+  const showConfirmation = (title, message, onConfirm, confirmText = 'Confirm', cancelText = 'Cancel') => {
+    setConfirmationModal({
+      isOpen: true,
+      title,
+      message,
+      onConfirm,
+      confirmText,
+      cancelText
+    });
+  };
+
+  const hideConfirmation = () => {
+    setConfirmationModal({
+      isOpen: false,
+      title: '',
+      message: '',
+      onConfirm: null,
+      confirmText: 'Confirm',
+      cancelText: 'Cancel'
+    });
+  };
 const handleDelete = (fileId) => {
     if (!hasPermission('delete')) {
       toast.error("You don't have permission to delete files");
       return;
     }
     
-    if (window.confirm("Are you sure you want to delete this file?")) {
-      deleteFile(fileId);
-    }
+    showConfirmation(
+      "Delete File",
+      "Are you sure you want to delete this file? This action cannot be undone.",
+      () => {
+        deleteFile(fileId);
+        hideConfirmation();
+      },
+      "Delete",
+      "Cancel"
+    );
   };
-
 const handleDeleteSelected = () => {
     if (!hasPermission('delete')) {
       toast.error("You don't have permission to delete files");
       return;
     }
     
-    if (window.confirm(`Are you sure you want to delete ${selectedFiles.length} selected files?`)) {
-      deleteSelected();
-    }
+    showConfirmation(
+      "Delete Selected Files",
+      `Are you sure you want to delete ${selectedFiles.length} selected files? This action cannot be undone.`,
+      () => {
+        deleteSelected();
+        hideConfirmation();
+      },
+      "Delete All",
+      "Cancel"
+    );
   };
-
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
 };
@@ -234,31 +285,43 @@ setSearchFiltersOpen(!searchFiltersOpen);
     }
   };
   
-  const handleLeaveTeam = async (teamId) => {
-    if (window.confirm("Are you sure you want to leave this team?")) {
-      try {
-        await leaveTeam(teamId);
-        setTeamManagementOpen(false);
-      } catch (err) {
-        // Error handled in leaveTeam function
-      }
-    }
+const handleLeaveTeam = async (teamId) => {
+    showConfirmation(
+      "Leave Team",
+      "Are you sure you want to leave this team? You will lose access to all team files and folders.",
+      async () => {
+        try {
+          await leaveTeam(teamId);
+          setTeamManagementOpen(false);
+        } catch (err) {
+          // Error handled in leaveTeam function
+        }
+        hideConfirmation();
+      },
+      "Leave Team",
+      "Cancel"
+    );
   };
-  
   const handleUpdateMemberRole = async (userId, newRole) => {
     if (currentTeam) {
       await updateMemberRole(currentTeam.Id, userId, newRole);
     }
   };
   
-  const handleRemoveMember = async (userId) => {
-    if (window.confirm("Are you sure you want to remove this member?")) {
-      if (currentTeam) {
-        await removeMember(currentTeam.Id, userId);
-      }
-}
+const handleRemoveMember = async (userId) => {
+    showConfirmation(
+      "Remove Member",
+      "Are you sure you want to remove this member from the team? They will lose access to all team files and folders.",
+      async () => {
+        if (currentTeam) {
+          await removeMember(currentTeam.Id, userId);
+        }
+        hideConfirmation();
+      },
+      "Remove Member",
+      "Cancel"
+    );
   };
-
 const handleMove = (file) => {
     // Get available folders for move destination
     const availableFolders = files.filter(f => 
@@ -492,6 +555,33 @@ isOpen={isPreviewOpen}
           onMove={handleMoveConfirm}
           file={moveFileData.file}
           availableFolders={moveFileData.availableFolders}
+/>
+      )}
+      
+      {/* Rename Modal */}
+      {renameModalOpen && renameFile && (
+        <RenameModal
+          isOpen={renameModalOpen}
+          onClose={() => {
+            setRenameModalOpen(false);
+            setRenameFile(null);
+          }}
+          onRename={handleRenameConfirm}
+          currentName={renameFile.name}
+          fileType={renameFile.isFolder ? 'folder' : 'file'}
+        />
+      )}
+      
+      {/* Confirmation Modal */}
+      {confirmationModal.isOpen && (
+        <ConfirmationModal
+          isOpen={confirmationModal.isOpen}
+          onClose={hideConfirmation}
+          onConfirm={confirmationModal.onConfirm}
+          title={confirmationModal.title}
+          message={confirmationModal.message}
+          confirmText={confirmationModal.confirmText}
+          cancelText={confirmationModal.cancelText}
         />
       )}
     </div>

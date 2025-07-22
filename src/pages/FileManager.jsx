@@ -13,6 +13,7 @@ import CreateFolderModal from "@/components/organisms/CreateFolderModal";
 import Header from "@/components/organisms/Header";
 import TeamManagementModal from "@/components/organisms/TeamManagementModal";
 import FileGrid from "@/components/organisms/FileGrid";
+import MoveFolderModal from "@/components/organisms/MoveFolderModal";
 import Sidebar from "@/components/organisms/Sidebar";
 const FileManager = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -26,8 +27,10 @@ const FileManager = () => {
   // Team management modals
   const [teamManagementOpen, setTeamManagementOpen] = useState(false);
   const [teamSwitchOpen, setTeamSwitchOpen] = useState(false);
-  const [createTeamOpen, setCreateTeamOpen] = useState(false);
+const [createTeamOpen, setCreateTeamOpen] = useState(false);
   const [createFolderOpen, setCreateFolderOpen] = useState(false);
+  const [moveFolderOpen, setMoveFolderOpen] = useState(false);
+  const [moveFileData, setMoveFileData] = useState(null);
   
 const {
     files,
@@ -256,7 +259,7 @@ setSearchFiltersOpen(!searchFiltersOpen);
 }
   };
 
-  const handleMove = async (file) => {
+const handleMove = (file) => {
     // Get available folders for move destination
     const availableFolders = files.filter(f => 
       f.isFolder && f.Id !== file.Id && f.parentId !== file.Id
@@ -268,32 +271,22 @@ setSearchFiltersOpen(!searchFiltersOpen);
       ...availableFolders
     ];
     
-    // Simple prompt-based folder selection (can be enhanced with modal later)
-    const folderNames = folderOptions.map((f, index) => `${index}: ${f.name} (${f.path})`).join('\n');
-    const selection = prompt(
-      `Select destination folder:\n${folderNames}\n\nEnter folder number:`,
-      "0"
-    );
-    
-    if (selection !== null) {
-      const folderIndex = parseInt(selection);
-      if (folderIndex >= 0 && folderIndex < folderOptions.length) {
-        const destinationFolder = folderOptions[folderIndex];
-        
-        try {
-          // Use the existing move service
-          const { fileService } = await import('@/services/api/fileService');
-          await fileService.move(file.Id, destinationFolder.Id);
-          
-          // Reload files to reflect the move
-          await loadFiles();
-          toast.success(`${file.name} moved to ${destinationFolder.name} successfully`);
-        } catch (error) {
-          toast.error(`Failed to move ${file.name}`);
-        }
-      } else {
-        toast.error('Invalid folder selection');
-      }
+    setMoveFileData({ file, availableFolders: folderOptions });
+    setMoveFolderOpen(true);
+  };
+
+  const handleMoveConfirm = async (file, destinationFolder) => {
+    try {
+      // Use the existing move service
+      const { fileService } = await import('@/services/api/fileService');
+      await fileService.move(file.Id, destinationFolder.Id);
+      
+      // Reload files to reflect the move
+      await loadFiles();
+      toast.success(`${file.name} moved to ${destinationFolder.name} successfully`);
+    } catch (error) {
+      toast.error(`Failed to move ${file.name}`);
+      throw error;
     }
   };
 
@@ -485,6 +478,20 @@ isOpen={isPreviewOpen}
           isOpen={createFolderOpen}
           onClose={() => setCreateFolderOpen(false)}
           onCreateFolder={handleCreateFolder}
+/>
+      )}
+      
+      {/* Move Folder Modal */}
+      {moveFolderOpen && moveFileData && (
+        <MoveFolderModal
+          isOpen={moveFolderOpen}
+          onClose={() => {
+            setMoveFolderOpen(false);
+            setMoveFileData(null);
+          }}
+          onMove={handleMoveConfirm}
+          file={moveFileData.file}
+          availableFolders={moveFileData.availableFolders}
         />
       )}
     </div>

@@ -138,7 +138,7 @@ return (
                     currentColor={file.color}
                   />
                 )}
-                <button
+<button
                   onClick={(e) => {
                     e.stopPropagation();
                     onMove(file);

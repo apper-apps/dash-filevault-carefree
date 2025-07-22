@@ -86,11 +86,21 @@ updateMemberRole,
   };
 
 const handleFileDoubleClick = (file) => {
-    console.log('Double-clicking file:', { name: file.name, isFolder: file.isFolder, path: file.path });
+    console.log('Double-clicking file:', { 
+      name: file.name, 
+      isFolder: file.isFolder, 
+      path: file.path, 
+      Id: file.Id,
+      type: file.type 
+    });
+    
     if (file.isFolder) {
-      console.log('Navigating to folder path:', file.path);
+      console.log('✓ Folder detected - Navigating to path:', file.path);
+      console.log('Current path before navigation:', currentPath);
       navigateToPath(file.path);
+      console.log('Navigation completed');
     } else {
+      console.log('File detected - Opening preview');
       setPreviewFile(file);
       setIsPreviewOpen(true);
     }

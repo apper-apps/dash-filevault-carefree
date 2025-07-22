@@ -91,12 +91,22 @@ export const useFileSystem = () => {
             return filePath === path;
           });
         }
-      } else {
+} else {
         // Get all files and filter by current path
         const allFiles = await fileService.getAll();
         filteredFiles = allFiles.filter(file => {
-          const filePath = file.path.split('/').slice(0, -1).join('/') || '/';
-          return filePath === path;
+          // For root path, show files with parentId null
+          if (path === '/') {
+            return file.parentId === null;
+          }
+          
+          // For nested paths, find the folder with matching path and get its children
+          const targetFolder = allFiles.find(f => f.isFolder && f.path === path);
+          if (targetFolder) {
+            return file.parentId === targetFolder.Id;
+          }
+          
+          return false;
         });
       }
       

@@ -113,12 +113,8 @@ const handleCreateFolder = async (folderName) => {
     }
 };
 
-  const fileInputRef = React.useRef(null);
+const fileInputRef = React.useRef(null);
   const [dragOver, setDragOver] = useState(false);
-
-  const handleUpload = () => {
-    fileInputRef.current?.click();
-  };
 
   const handleFileSelect = (event) => {
     const files = event.target.files;
@@ -149,20 +145,9 @@ const handleCreateFolder = async (folderName) => {
     }
   };
 
-// Create upload handler object for Header
-  const uploadHandler = {
-    fileInputRef,
-    handleFileSelect
-  };
-
-  // Assign the click handler to the upload function
-  handleUpload.fileInputRef = fileInputRef;
-  handleUpload.handleFileSelect = handleFileSelect;
-
   const handleUploadClick = () => {
     fileInputRef.current?.click();
   };
-
 const handleRename = (file) => {
     const newName = prompt("Enter new name:", file.name);
     if (newName && newName.trim() && newName !== file.name) {

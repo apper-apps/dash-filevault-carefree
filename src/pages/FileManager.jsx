@@ -253,8 +253,50 @@ setSearchFiltersOpen(!searchFiltersOpen);
       if (currentTeam) {
         await removeMember(currentTeam.Id, userId);
       }
+}
+  };
+
+  const handleMove = async (file) => {
+    // Get available folders for move destination
+    const availableFolders = files.filter(f => 
+      f.isFolder && f.Id !== file.Id && f.parentId !== file.Id
+    );
+    
+    // Add root folder option
+    const folderOptions = [
+      { Id: null, name: "Root Folder", path: "/" },
+      ...availableFolders
+    ];
+    
+    // Simple prompt-based folder selection (can be enhanced with modal later)
+    const folderNames = folderOptions.map((f, index) => `${index}: ${f.name} (${f.path})`).join('\n');
+    const selection = prompt(
+      `Select destination folder:\n${folderNames}\n\nEnter folder number:`,
+      "0"
+    );
+    
+    if (selection !== null) {
+      const folderIndex = parseInt(selection);
+      if (folderIndex >= 0 && folderIndex < folderOptions.length) {
+        const destinationFolder = folderOptions[folderIndex];
+        
+        try {
+          // Use the existing move service
+          const { fileService } = await import('@/services/api/fileService');
+          await fileService.move(file.Id, destinationFolder.Id);
+          
+          // Reload files to reflect the move
+          await loadFiles();
+          toast.success(`${file.name} moved to ${destinationFolder.name} successfully`);
+        } catch (error) {
+          toast.error(`Failed to move ${file.name}`);
+        }
+      } else {
+        toast.error('Invalid folder selection');
+      }
     }
   };
+
 if (error) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-primary-50 via-accent-50 to-secondary-50 flex items-center justify-center">
@@ -364,6 +406,7 @@ sizeRange={sizeRange}
                 onRename={handleRename}
                 onDelete={handleDelete}
                 onColorChange={changeFolderColor}
+                onMove={handleMove}
               />
 ) : (
 <FileList
@@ -375,6 +418,7 @@ sizeRange={sizeRange}
                 onRename={handleRename}
                 onDelete={handleDelete}
                 onColorChange={changeFolderColor}
+                onMove={handleMove}
                 sortBy={sortBy}
                 sortOrder={sortOrder}
                 onSortChange={handleSort}

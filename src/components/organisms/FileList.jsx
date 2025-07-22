@@ -15,6 +15,7 @@ const FileList = ({
   onRename,
   onDelete,
   onColorChange,
+  onMove,
   sortBy,
   sortOrder,
   onSortChange
@@ -137,6 +138,16 @@ return (
                     currentColor={file.color}
                   />
                 )}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onMove(file);
+                  }}
+                  className="p-1.5 rounded-md hover:bg-blue-50 transition-all duration-200 hover:scale-110 mobile-button"
+                  title="Move"
+                >
+                  <ApperIcon name="Move" className="w-4 h-4 text-blue-600" />
+                </button>
                 <button
                   onClick={(e) => {
                     e.stopPropagation();

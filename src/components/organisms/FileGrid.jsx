@@ -113,6 +113,16 @@ return (
               <button
                 onClick={(e) => {
                   e.stopPropagation();
+                  onMove(file);
+                }}
+                className="p-2 bg-white rounded-full shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-110 hover:bg-blue-50 mobile-button"
+                title="Move"
+              >
+                <ApperIcon name="Move" className="w-4 h-4 text-blue-600" />
+              </button>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
                   onRename(file);
                 }}
                 className="p-2 bg-white rounded-full shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-110 mobile-button"
